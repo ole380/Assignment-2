@@ -25,7 +25,7 @@ package assignment2;
  * 	
  **/	
 
-public interface VariableInterface<K,V> extends Data<K>{
+public interface VariableInterface<K extends Data<K>,V extends Clonable<V>> extends Data<K>{
 	
 	/* Initializes the Variable object with key key and value value.
 	 *  @precondition:
