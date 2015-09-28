@@ -15,7 +15,7 @@ package assignment2;
 
 public interface NaturalNumberInterface extends Data<NaturalNumberInterface> {
 
-	/*
+	/**
 	 * Initializes the NaturalNumber object with value c.
 	 * 
 	 * @precondition: c is a digit.
@@ -26,7 +26,7 @@ public interface NaturalNumberInterface extends Data<NaturalNumberInterface> {
 
 	// Elementary operations for read & write
 
-	/*
+	/**
 	 * Adds a digit c to the NaturalNumberInterface at the end.
 	 * 
 	 * @precondition Character c is a digit.
@@ -36,7 +36,7 @@ public interface NaturalNumberInterface extends Data<NaturalNumberInterface> {
 	 */
 	void addDigit(char c);
 
-	/*
+	/**
 	 * Removes and returns the last digit that was added to the
 	 * NaturalNumberInterface.
 	 * 
@@ -47,7 +47,7 @@ public interface NaturalNumberInterface extends Data<NaturalNumberInterface> {
 	 */
 	char removeLastDigit();
 
-	/*
+	/**
 	 * Returns an identifier as a String object.
 	 * 
 	 * @precondition None.
@@ -59,7 +59,7 @@ public interface NaturalNumberInterface extends Data<NaturalNumberInterface> {
 
 	// Natural operations
 
-	/*
+	/**
 	 * Checks the amount of characters of an identifier
 	 * 
 	 * @precondition None.

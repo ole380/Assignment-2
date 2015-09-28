@@ -1,6 +1,6 @@
 package assignment2;
 
-/** ADT for the class Variable
+/*** ADT for the class Variable
  * 	@author
  * 		Erik Baalhuis & Niels van der Molen
  * 	@elements 
@@ -12,22 +12,22 @@ package assignment2;
  * 
  * 	@constructor
  * 	Variable(K key, V value);
- * 		precondition
+ * 		@precondition
  * 			None.
- * 		postcondition
+ * 		@postcondition
  * 			A new Variable is created with key key and value value.
  * 
  * 	Variable(VariableInterface src);
- * 		precondition
+ * 		@precondition
  * 			None.
- * 		postcondition
+ * 		@postcondition
  * 			A new Variable object which is a copy of src is created.
  * 	
  **/	
 
 public interface VariableInterface<K extends Data<K>,V extends Clonable<V>> extends Data<K>{
 	
-	/* Initializes the Variable object with key key and value value.
+	/** Initializes the Variable object with key key and value value.
 	 *  @precondition:
 	 *  	None.
 	 *  @postcondition:
@@ -37,7 +37,7 @@ public interface VariableInterface<K extends Data<K>,V extends Clonable<V>> exte
 	
 	// Natural operations
 	
-	/* Compares two variables by key.
+	/** Compares two variables by key.
 	 * @precondition
 	 * 		None.
 	 * @postcondition
@@ -47,7 +47,7 @@ public interface VariableInterface<K extends Data<K>,V extends Clonable<V>> exte
 	 */
 	int compareTo(VariableInterface<K,V> variable2);
 	
-	/* Change the key of this variable to key.
+	/** Change the key of this variable to key.
 	 *  @precondition:
 	 *  	None.
 	 *  @postcondition:
@@ -55,7 +55,7 @@ public interface VariableInterface<K extends Data<K>,V extends Clonable<V>> exte
 	 */
 	void setKey(K key);
 	
-	/* Change the value of this variable to value.
+	/** Change the value of this variable to value.
 	 *  @precondition:
 	 *  	None.
 	 *  @postcondition:
@@ -63,7 +63,7 @@ public interface VariableInterface<K extends Data<K>,V extends Clonable<V>> exte
 	 */
 	void setValue(V value);
 	
-	/* Return the key of this variable.
+	/** Return the key of this variable.
 	 *  @precondition:
 	 *  	None.
 	 *  @postcondition:
@@ -71,7 +71,7 @@ public interface VariableInterface<K extends Data<K>,V extends Clonable<V>> exte
 	 */
 	K getKey();
 	
-	/* Return the value of this variable.
+	/** Return the value of this variable.
 	 *  @precondition:
 	 *  	None.
 	 *  @postcondition:

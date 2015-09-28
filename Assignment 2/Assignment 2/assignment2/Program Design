@@ -1,0 +1,8 @@
+Program calls start
+	Program enters infinite loop
+		start calls a method getInput reads the input, and checks for EOF. If it encounters EOF, ends the program.
+		If getInput did not encounter EOF, start calls checkInput which checks if the input matches one of the possible statements and, if correct, determines which statement. On faulty input, a clear error message is displayed. 
+		As statements are determined previously, corresponding methods handling statements are called.
+			processAssignment
+			processPrintStatement
+			processComment
