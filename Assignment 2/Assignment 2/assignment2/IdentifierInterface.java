@@ -24,7 +24,7 @@ package assignment2;
  * 			A new Identifier object which is a copy of src is created.
  * 	
 */	
-public interface IdentifierInterface extends Data<StringBuffer>{
+public interface IdentifierInterface extends Data<IdentifierInterface>{
 	
 	/* Initializes the Identifier object with content c.
 	 *  @precondition:
@@ -61,16 +61,6 @@ public interface IdentifierInterface extends Data<StringBuffer>{
 	String toString();
 	
 	// Natural operations
-	
-	/* Compares two identifiers.
-	* @precondition
-	 * 		None.
-	 * @postcondition
-	 * 		Return 1: in the lexicographic order, this identifier comes before identifier2.
-	 * 		Return 0: in the lexicographic order, this identifier is equal to identifier2.
-	 * 		Return -1: in the lexicographic order, this identifier comes after identifier2.
-	 */
-	int compareTo(IdentifierInterface identifier2);
 	
 	/* Checks the amount of characters in an identifier.
 	 * precondition
