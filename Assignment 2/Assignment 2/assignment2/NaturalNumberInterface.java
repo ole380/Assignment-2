@@ -1,50 +1,71 @@
 package assignment2;
 
-/** ADT for the class NaturalNumber
- * 	@author
- * 		Erik Baalhuis & Niels van der Molen
- * 	@elements 
- * 		Integers of type int.
- * 	@structure
- * 		None.
- * 	@domain 
- * 		One non-negative integer.
+/**
+ * ADT for the class NaturalNumber
  * 
- * 	@constructor
- * 	NaturalNumber(int n);
- * 		precondition
- * 			n is non-negative.
- * 		postcondition
- * 			A new NaturalNumber is created with value n.
+ * @author Erik Baalhuis & Niels van der Molen
+ * @elements Characters of type char.
+ * @structure Linear.
+ * @domain Any number of digits. No leading zeros.
  * 
- * 	NaturalNumber(NaturalNumber src);
- * 		precondition
- * 			None.
- * 		postcondition
- * 			A new NaturalNumber object which is a copy of src is created.
- * 	
- **/	
+ * @constructor NaturalNumberInterface(char c);
+ * @precondition c is a non-zero digit.
+ * @postcondition A new NaturalNumberInterface object is created with value c.
+ **/
 
-public interface NaturalNumberInterface extends Data<Integer>{
-	
-	/* Initializes the NaturalNumber object with value n.
-	 *  @precondition:
-	 *  	n is non-negative.
-	 *  @postcondition:
-	 *  	The NaturalNumber object has value n.
+public interface NaturalNumberInterface extends Data<NaturalNumberInterface> {
+
+	/*
+	 * Initializes the NaturalNumber object with value c.
+	 * 
+	 * @precondition: c is a digit.
+	 * 
+	 * @postcondition: The NaturalNumberIdentifer object has value c.
 	 */
-	void init(int n);
-	
+	void init(char c);
+
+	// Elementary operations for read & write
+
+	/*
+	 * Adds a digit c to the NaturalNumberInterface at the end.
+	 * 
+	 * @precondition Character c is a digit.
+	 * 
+	 * @postcondition The digit c is added to the end of the
+	 * NaturalNumberInterface.
+	 */
+	void addDigit(char c);
+
+	/*
+	 * Removes and returns the last digit that was added to the
+	 * NaturalNumberInterface.
+	 * 
+	 * @precondition The NaturalNumberInterface contains more than one element.
+	 * 
+	 * @postcondition The last digit is removed from the PRE-identifier, and
+	 * returned.
+	 */
+	char removeLastDigit();
+
+	/*
+	 * Returns an identifier as a String object.
+	 * 
+	 * @precondition None.
+	 * 
+	 * @postcondition The content of the NaturalNumberInterface is returned as a
+	 * String object.
+	 */
+	String toString();
+
 	// Natural operations
-	
-	/* Compares two natural numbers.
-	 * @precondition
-	 * 		None.
-	 * @postcondition
-	 * 		Return 1: the value of this number is bigger than that of number2.
-	 * 		Return 0: the value of this number is equal to that of number2.
-	 * 		Return -1: the value of this number is smaller than that of number2.
+
+	/*
+	 * Checks the amount of characters of an identifier
+	 * 
+	 * @precondition None.
+	 * 
+	 * @postcondition The amount of digits the NaturalNumberInterface contains
+	 * is returned in type int.
 	 */
-	int compareTo(NaturalNumberInterface number2);
-	
+	int length();
 }
