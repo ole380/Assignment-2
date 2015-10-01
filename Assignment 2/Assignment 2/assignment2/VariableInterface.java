@@ -16,13 +16,6 @@ package assignment2;
  * 			None.
  * 		@postcondition
  * 			A new Variable is created with key key and value value.
- * 
- * 	Variable(VariableInterface src);
- * 		@precondition
- * 			None.
- * 		@postcondition
- * 			A new Variable object which is a copy of src is created.
- * 	
  **/	
 
 public interface VariableInterface<K extends Data<K>,V extends Clonable<V>> extends Data<K>{
