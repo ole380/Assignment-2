@@ -17,12 +17,6 @@ package assignment2;
  *  		None.
  * 		@postcondition
  * 			A new empty Set<E> object is created.
- * 
- * 	Set<E>(Set<E> src<E>);
- * 		@precondition
- * 			None.
- * 		@postcondition
- * 			A new Set<E> object is created which is a copy of scr.
  **/
 
 public interface SetInterface<E extends Data<E>> extends Clonable<SetInterface<E>> {
@@ -62,11 +56,11 @@ public interface SetInterface<E extends Data<E>> extends Clonable<SetInterface<E
 
 	/** Return element that is in the set.
 	 * @precondition
-	 * 		The set contains element.
+	 * 		The set is not empty.
 	 * @postcondition
-	 * 		The element element of type E is returned.
+	 * 		An element of type E is returned.
 	 **/
-	E get(E element);
+	E get();
 
 	/**  Checks if this set is equal to set2.
 	 * @precondition
