@@ -1,5 +1,5 @@
 package assignment2;
 
-public class Set {
+public class Set<E> implements SetInterface {
 
 }
