@@ -4,11 +4,11 @@ package assignment2;
  * 	@author
  * 		Erik Baalhuis & Niels van der Molen
  * 	@elements 
- * 		Variables that have a key and a value.
+ * 		Pairs of a key and a value.
  * 	@structure
- * 		Linear.
+ * 		None.
  * 	@domain 
- * 		Any number of variables.
+ * 		Any number of pairs.
  * 
  * 	@constructor
  * 	Table();
@@ -19,7 +19,7 @@ package assignment2;
  * 	
  **/	
 
-public interface TableInterface<Variable extends Clonable<Variable>, K extends Data<K>, V extends Clonable<V>> extends Data<TableInterface<Variable,K,V>> {
+public interface TableInterface<K extends Data<K>, V extends Clonable<V>> extends Data<TableInterface<K,V>> {
 
 	/** Initializes the TableInterface object to the empty table.
 	 *  @precondition:
@@ -29,12 +29,29 @@ public interface TableInterface<Variable extends Clonable<Variable>, K extends D
 	 */
 	void init();
 	
-	/** Find the value belonging to key K, if present.
+	/** Check if key K is in the table.
 	 *  @precondition:
 	 *  	None.
 	 *  @postcondition:
-	 *  	The value belonging to K is returned, or null if K is not in the table's keys.
+	 * 		TRUE: K is in the table.
+	 * 		FALSE: K is not in the table.
 	 */
-	V findValue(K key);
+	boolean contains(K key);
 	
+	/** Find the value belonging to key K, if present.
+	 *  @precondition:
+	 *  	K is in the table.
+	 *  @postcondition:
+	 *  	The value belonging to K is returned.
+	 */
+	V find(K key);
+	
+	/** Add the pair (key, value) to the table.
+	 *  If key is already present, overwrite the value.
+	 *  @precondition:
+	 *  	None.
+	 *  @postcondition:
+	 * 		The table contains (key, value).
+	 */
+	void add(K key, V value);
 }
