@@ -6,10 +6,10 @@ package assignment2;
  * @author Erik Baalhuis & Niels van der Molen
  * @elements Characters of type char.
  * @structure Linear.
- * @domain Any number of digits. No leading zeros.
+ * @domain Any number of digits. No leading zeros for non-zero numbers.
  * 
  * @constructor NaturalNumberInterface(char c);
- * @precondition c is a non-zero digit.
+ * @precondition c is a digit.
  * @postcondition A new NaturalNumberInterface object is created with value c.
  **/
 
@@ -23,16 +23,28 @@ public interface NaturalNumberInterface extends Data<NaturalNumberInterface> {
 	 * @postcondition: The NaturalNumberIdentifer object has value c.
 	 */
 	void init(char c);
+	
+	/**
+	 * Checks if the current value is zero.
+	 * 
+	 * @precondition: None.
+	 * 
+	 * @postcondition:
+	 * 		TRUE: The current value is zero.
+	 * 		FALSE: The current value is non-zero.
+	 */
+	boolean isZero();
 
 	// Elementary operations for read & write
 
 	/**
 	 * Adds a digit c to the NaturalNumberInterface at the end.
+	 * If the current value is zero, removes the leading zero.
 	 * 
 	 * @precondition Character c is a digit.
 	 * 
 	 * @postcondition The digit c is added to the end of the
-	 * NaturalNumberInterface.
+	 * NaturalNumberInterface. Leading zeros are removed.
 	 */
 	void addDigit(char c);
 
