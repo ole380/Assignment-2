@@ -157,14 +157,14 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 		}
 	}
 	
-	public List<E> clone2(){
-		List<E> copy;
-		try {
-			copy = (List<E>)super.clone();
-		} catch (CloneNotSupportedException e) {
-			throw new Error("Unexpected error in clone method");
-			//we do not expect an error here as
-		}
-		copy.current = (List<E>.Node<E>) current.clone();
-	}
+//	public List<E> clone2(){
+//		List<E> copy;
+//		try {
+//			copy = (List<E>)super.clone();
+//		} catch (CloneNotSupportedException e) {
+//			throw new Error("Unexpected error in clone method");
+//			//we do not expect an error here as List<E> is clonable.
+//		}
+//		copy.current = (List<E>.Node<E>) current.clone();
+//	}
 }
