@@ -10,6 +10,22 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 		current = null;
 	}
 	
+	public class Node<E extends Data<E>> {
+	    E data;
+	    Node<E> prior, next;
+
+	    public Node(E d) {
+	        this(d, null, null);
+	    }
+
+	    public Node(E data, Node<E> prior, Node<E> next) {
+	        this.data = data == null ? null : data;
+	        this.prior = prior;
+	        this.next = next;
+	    }
+
+	}
+	
 	public boolean isEmpty() {
 		return size == 0;
 	}
@@ -149,6 +165,6 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 			throw new Error("Unexpected error in clone method");
 			//we do not expect an error here as
 		}
-		copy.current = current.clone();
+		copy.current = (List<E>.Node<E>) current.clone();
 	}
 }
