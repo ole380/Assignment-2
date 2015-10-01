@@ -123,8 +123,8 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 		}
 	}
 
-	public ListInterface<E> clone() {
-		ListInterface<E> result = new List<E>();
+	public List<E> clone() {
+		List<E> result = new List<E>();
 		Node<E> originalCurrent = current;
 		
 		if (this.isEmpty()) {
@@ -135,9 +135,9 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 			while (this.goToNext()) {
 				result.insert(current.data.clone());
 			}
+			result.current = originalCurrent;
 			current = originalCurrent;
 			return result;
 		}
 	}
-
 }
