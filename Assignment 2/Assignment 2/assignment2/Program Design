@@ -6,4 +6,4 @@ Program calls start
 		As statements are determined previously, corresponding methods handling statements are called.
 			processAssignment
 			processPrintStatement
-			processComment
+			ignores input which is faulty or a comment.
