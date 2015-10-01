@@ -23,17 +23,31 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 	public int size() {
 		return size;
 	}
-
+	
 	public ListInterface<E> insert(E d) {
-		Node<E> newNode = new Node<E>(d, current, null);
-		current.next = newNode;
+		Node<E> newNode = new Node<E>(d, null, null);
+		
+		if (!isEmpty()) {
+			if (current.data.compareTo(d) == 1) { 
+				//newNode has to come first in the list
+				newNode.next = current;
+				current.prior = newNode;
+			} else { //current points to last element <= d
+				if (current.next != null) {
+					newNode.next = current.next;
+					current.next.prior = newNode;
+				}
+				newNode.prior = current;
+				current.next = newNode;
+			}
+		}
 		current = newNode;
 		size++;
 		return this;
 	}
 
 	public E retrieve() {
-		return current.data;
+		return current.data.clone();
 	}
 
 	public ListInterface<E> remove() {
@@ -54,7 +68,18 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 	}
 
 	public boolean find(E d) {
-		
+		if (goToFirst()) {
+			while (current.data.compareTo(d) == -1) {
+				if (!goToNext()) {
+					return false;
+				}
+			}
+			if (current.data.compareTo(d) == 0) {
+				return true;
+			} else {
+				goToPrevious();
+			}
+		}
 		return false;
 	}
 
@@ -98,21 +123,21 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 		}
 	}
 
-	public ListInterface<E> clone() {
-		ListInterface<E> result = new List<E>();
+	public List<E> clone() {
+		List<E> result = new List<E>();
 		Node<E> originalCurrent = current;
 		
 		if (this.isEmpty()) {
 			return result;
 		} else { //list is not empty
 			this.goToFirst();
-			result.insert(current.data);
+			result.insert(current.data.clone());
 			while (this.goToNext()) {
-				result.insert(current.data);
+				result.insert(current.data.clone());
 			}
+			result.current = originalCurrent;
 			current = originalCurrent;
 			return result;
 		}
 	}
-
 }
