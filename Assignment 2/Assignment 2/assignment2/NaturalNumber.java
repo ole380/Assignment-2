@@ -13,7 +13,7 @@ public class NaturalNumber implements NaturalNumberInterface {
 		length = 1;
 	}
 	
-	public NaturalNumberInterface clone() {
+	public NaturalNumber clone() {
 		char firstDigit = content.charAt(0);
 		NaturalNumber result = new NaturalNumber(firstDigit);
 		for (int i = 1; i < length; i++) {

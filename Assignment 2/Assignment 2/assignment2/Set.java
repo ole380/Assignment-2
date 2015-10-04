@@ -1,53 +1,65 @@
 package assignment2;
 
-public class Set<NaturalNumber> implements SetInterface<NaturalNumber> {
+public class Set<NaturalNumber> implements SetInterface {
 
-	@Override
+	List<NaturalNumber> content;
+
+	Set<NaturalNumber>()
+
+	{
+		content = new List<NaturalNumber>;
+		size = 0;
+	}
+
+	public SetInterface clone() {
+		Set result = new Set();
+		for (int i = 0; i < size; i++) {
+			// TODO
+		}
+		return result;
+	}
+
 	public void init() {
-		// TODO Auto-generated method stub
-		
+		content = new List<NaturalNumber>;
 	}
 
-	@Override
-	public boolean contains(Data element) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean contains(NaturalNumber element) {
+		for (int i = 0; i < size; i++) {
+			return content.find(element);
 	}
 
-	@Override
-	public void add(Data element) {
-		// TODO Auto-generated method stub
-		
+	public void add(NaturalNumber element) {
+		content.insert(element);
 	}
 
-	@Override
-	public void remove(Data element) {
-		// TODO Auto-generated method stub
-		
+	public void remove(NaturalNumber element) {
+		content.find(element);
+		content.remove();
 	}
 
-	@Override
-	public Data get() {
-		// TODO Auto-generated method stub
-		return null;
+	// This does not work, why? SetInterface.get() wants to return Data
+	// instead of NaturalNumber.
+	public NaturalNumber get() {
+		NaturalNumber result = content.retrieve();
+		content.remove();
+		return result;
 	}
 
-	@Override
-	public boolean isEqual(SetInterface set2) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean isEqual(Set set2) {
+		if (content.size != set2.content.size) {
+			return false;
+		}
+		for (int i = 0; i < content.size; i++) {
+			//TODO
+		}
 	}
 
-	@Override
 	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
+		return content.size;
 	}
 
-	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return size() == 0;
 	}
 
 	@Override
