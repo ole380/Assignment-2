@@ -40,7 +40,7 @@ public class NaturalNumber implements NaturalNumberInterface {
 	}
 
 	public void init(char c) {
-		content.setLength(0);
+		content = new StringBuffer();
 		content.append(c);
 		length = 1;
 	}
