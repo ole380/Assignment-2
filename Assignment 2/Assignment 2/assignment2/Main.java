@@ -12,7 +12,11 @@ public class Main {
 						IDENTIFIER_EXPRESSION_SEPERATOR = '=',
 						UNION_OPERATOR = '+',
 						COMPLEMENT_OPERATOR = '-',
-						SYMMETRIC_DIFFERENCE_OPERATOR = '|';
+						SYMMETRIC_DIFFERENCE_OPERATOR = '|',
+						INTERSECTION_OPERATOR = '*',
+						SET_OPEN_MARK = '{',
+						SET_CLOSE_MARK = '}',
+						COMPLEX_FACTOR_OPEN_MARK = '(';
 
 	static final String LETTER_PATTERN = "[a-zA-Z]",
 						DIGIT_PATTERN = "[0-9]",
@@ -37,24 +41,66 @@ public class Main {
 		return in.nextLine();
 	}
 
-	void readFactor(){
+	void readPositiveNumber(Scanner numberScanner){
 		
 	}
 	
-	void readTerm(){
-		
+	void readSet(Scanner setScanner)throws APException{
+		nextChar(setScanner);
+		while(setScanner.hasNext()){
+			readWhiteSpaces(setScanner);
+			if(nextCharIsDigit(setScanner)){
+				readPositiveNumber(setScanner);
+			}else if(nextCharIs(setScanner, SET_CLOSE_MARK)){
+				nextChar(setScanner);
+			}else{
+				throw new APException("fout karakter gedetecteerd");
+			}
+		}
+	}
+	
+	void readFactor(Scanner factorScanner)throws APException{
+		if(nextCharIsLetter(factorScanner)){
+			readIdentifier(factorScanner);
+		}else if(nextCharIs(factorScanner, SET_OPEN_MARK)){
+			readSet(factorScanner);
+		}else if(nextCharIs(factorScanner, COMPLEX_FACTOR_OPEN_MARK)){
+			readExpression(factorScanner);
+		}else{
+			throw new APException("fout karakter gedetecteerd");
+		}
+	}
+	
+	void readTerm(Scanner termScanner)throws APException{
+		readFactor(termScanner);
+		readWhiteSpaces(termScanner);
+		while(termScanner.hasNext()){
+			if(nextCharIs(termScanner, INTERSECTION_OPERATOR)){
+				nextChar(termScanner);
+				readWhiteSpaces(termScanner);
+				readFactor(termScanner);
+			}else{
+				throw new APException("fout karakter gedetecteerd");
+			}
+		}
 	}
 	
 	void readExpression(Scanner expressionScanner)throws APException{
 		readWhiteSpaces(expressionScanner);
-		readTerm();
+		readTerm(expressionScanner);
 		while (expressionScanner.hasNext()){
 			if(nextCharIs(expressionScanner, UNION_OPERATOR)){
-				
+				nextChar(expressionScanner);
+				readWhiteSpaces(expressionScanner);
+				readTerm(expressionScanner);
 			}else if(nextCharIs(expressionScanner, COMPLEMENT_OPERATOR)){
-				
+				nextChar(expressionScanner);
+				readWhiteSpaces(expressionScanner);
+				readTerm(expressionScanner);
 			}else if(nextCharIs(expressionScanner, SYMMETRIC_DIFFERENCE_OPERATOR)){
-				
+				nextChar(expressionScanner);
+				readWhiteSpaces(expressionScanner);
+				readTerm(expressionScanner);
 			}else{
 				throw new APException("omdat er een teken is gevonden dat niet klopt");
 			}
@@ -80,7 +126,7 @@ public class Main {
 		return result;
 	}
 	
-	void processPrintStatement(Scanner printStatementScanner) {
+	void processPrintStatement(Scanner printStatementScanner)throws APException {
 		printStatementScanner.next();
 	}
 
