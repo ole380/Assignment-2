@@ -69,7 +69,7 @@ public interface SetInterface<E extends Data<E>> extends Clonable<SetInterface<E
 	 * 		True: The sets are equal.
 	 * 		False: The sets are not equal.
 	 **/
-	boolean isEqual(SetInterface<E> set2);
+	boolean isEqual(Set<E> set2);
 
 	/**  Returns the number of elements.
 	 * @precondition
@@ -94,7 +94,7 @@ public interface SetInterface<E extends Data<E>> extends Clonable<SetInterface<E
 	 * @postcondition
 	 * 		The difference of this set with set2 is returned as a Set<E> object.
 	 **/
-	SetInterface<E> difference(SetInterface<E> set2);
+	SetInterface<E> difference(Set<E> set2);
 
 	/** Determines the intersection of the sets.
 	 * @precondition
@@ -102,7 +102,7 @@ public interface SetInterface<E extends Data<E>> extends Clonable<SetInterface<E
 	 * @postcondition
 	 * 		The intersection of this set with set2 is returned as a Set<E> object.
 	 **/
-	SetInterface<E> intersection(SetInterface<E> set2);
+	SetInterface<E> intersection(Set<E> set2);
 
 	/** Determines the union of the sets.
 	 * @precondition
@@ -110,7 +110,7 @@ public interface SetInterface<E extends Data<E>> extends Clonable<SetInterface<E
 	 * @postcondition
 	 * 		The union of this set with set2 as a Set<E> object.
 	 **/
-	SetInterface<E> union(SetInterface<E> set2);
+	SetInterface<E> union(Set<E> set2);
 
 	/** Determines the symmetric difference of the sets.
 	 * @precondition
@@ -118,5 +118,5 @@ public interface SetInterface<E extends Data<E>> extends Clonable<SetInterface<E
 	 * @postcondition
 	 * 		The symmetric difference of this set with set2 is returned as a Set<E> object.
 	 **/
-	SetInterface<E> symmetricDifference(SetInterface<E> set2);
+	SetInterface<E> symmetricDifference(Set<E> set2);
 }

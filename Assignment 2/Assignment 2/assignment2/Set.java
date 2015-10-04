@@ -1,57 +1,56 @@
 package assignment2;
 
-public class Set<NaturalNumber> implements SetInterface {
+public class Set<E extends Data<E>> implements SetInterface<E> {
 
-	List<NaturalNumber> content;
+	List<E> content;
 
-	Set<NaturalNumber>()
-
-	{
-		content = new List<NaturalNumber>;
-		size = 0;
+	Set() {
+		content = new List<E>();
 	}
 
-	public SetInterface clone() {
-		Set result = new Set();
-		for (int i = 0; i < size; i++) {
-			// TODO
-		}
+	public Set<E> clone() {
+		Set<E> result = new Set<E>();
+		result.content = content.clone();
 		return result;
 	}
 
 	public void init() {
-		content = new List<NaturalNumber>;
+		content = new List<E>();
 	}
 
-	public boolean contains(NaturalNumber element) {
-		for (int i = 0; i < size; i++) {
-			return content.find(element);
+	public boolean contains(E element) {
+		return content.find(element);
 	}
 
-	public void add(NaturalNumber element) {
-		content.insert(element);
+	public void add(E element) {
+		if (!contains(element)) {
+			content.insert(element);
+		}
 	}
 
-	public void remove(NaturalNumber element) {
+	public void remove(E element) {
 		content.find(element);
 		content.remove();
 	}
 
-	// This does not work, why? SetInterface.get() wants to return Data
-	// instead of NaturalNumber.
-	public NaturalNumber get() {
-		NaturalNumber result = content.retrieve();
-		content.remove();
+	public E get() {
+		E result = content.retrieve();
 		return result;
 	}
 
-	public boolean isEqual(Set set2) {
-		if (content.size != set2.content.size) {
+	public boolean isEqual(Set<E> set2) {
+		if (size() != set2.size()) {
 			return false;
 		}
-		for (int i = 0; i < content.size; i++) {
-			//TODO
+		Set<E> temp = clone();
+		for (int i = 0; i < size(); i++) {
+			E data = temp.get();
+			temp.remove(data);
+			if (!set2.contains(data)) {
+				return false;
+			}
 		}
+		return true;
 	}
 
 	public int size() {
@@ -62,28 +61,42 @@ public class Set<NaturalNumber> implements SetInterface {
 		return size() == 0;
 	}
 
-	@Override
-	public SetInterface difference(SetInterface set2) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<E> difference(Set<E> set2) {
+		Set<E> result = clone();
+		Set<E> temp = set2.clone();
+		for (int i = 0; i < temp.size(); i++) {
+			E data = temp.get();
+			temp.remove(data);
+			result.remove(data);
+		}
+		return result;
 	}
 
-	@Override
-	public SetInterface intersection(SetInterface set2) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<E> intersection(Set<E> set2) {
+		Set<E> result = new Set<E>();
+		Set<E> temp = clone();
+		for (int i = 0; i < temp.size(); i++) {
+			E data = temp.get();
+			temp.remove(data);
+			if (set2.contains(data)) {
+				result.add(data);
+			}
+		}
+		return result;
 	}
 
-	@Override
-	public SetInterface union(SetInterface set2) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<E> union(Set<E> set2) {
+		Set<E> result = clone();
+		Set<E> temp = set2.clone();
+		for (int i = 0; i < temp.size(); i++) {
+			E data = temp.get();
+			temp.remove(data);
+			result.add(data);
+		}
+		return result;
 	}
 
-	@Override
-	public SetInterface symmetricDifference(SetInterface set2) {
-		// TODO Auto-generated method stub
-		return null;
+	public Set<E> symmetricDifference(Set<E> set2) {
+		return difference(set2).union(set2.difference(this));
 	}
-
 }
