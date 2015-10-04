@@ -48,7 +48,7 @@ public class Main {
 	}
 	
 	void readWhiteSpaces(Scanner in){
-		while(in.hasNext("")){
+		while(in.hasNext(" ")){
 			in.next();
 		}
 	}
@@ -62,8 +62,7 @@ public class Main {
 		}else if(nextCharIs(inputScanner, COMMENT_TYPE_MARKER)){
 			return COMMENT_TYPE_STRING;
 		}else{
-			throw new APException("Input error, expecting a letter, question mark or back-slash");
-			
+			throw new APException("Input error, expecting a letter, question mark or back-slash.");
 		}
 	}
 
@@ -85,7 +84,7 @@ public class Main {
 			try {
 				runProgram(in);
 			} catch (APException e) {
-				out.printf("%s%", e.getMessage());
+				out.printf("%s\n", e.getMessage());
 			}
 		}
 
