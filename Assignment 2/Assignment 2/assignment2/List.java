@@ -151,7 +151,7 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 		}
 	}
 	
-	public class Node<E extends Data<E>> {
+	private class Node<E extends Data<E>> {
 		E data;
 		Node<E> prior, next;
 

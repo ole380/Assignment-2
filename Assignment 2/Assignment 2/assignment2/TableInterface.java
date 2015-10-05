@@ -19,7 +19,7 @@ package assignment2;
  * 	
  **/	
 
-public interface TableInterface<K extends Data<K>, V extends Clonable<V>> extends Data<TableInterface<K,V>> {
+public interface TableInterface<K extends Data<K>, V extends Clonable<V>> extends Clonable<Table<K,V>> {
 
 	/** Initializes the TableInterface object to the empty table.
 	 *  @precondition:
