@@ -11,13 +11,17 @@ public class Identifier implements IdentifierInterface {
 		length = 1;
 	}
 	
-	public IdentifierInterface clone() {
+	public Identifier clone() {
 		char firstChar = content.charAt(0);
 		Identifier result = new Identifier(firstChar);
 		for (int i = 1; i < length; i++) {
 			result.content.append(content.charAt(i));
 		}
 		return result;
+	}
+	
+	public int compareTo(Identifier other) {
+		return content.toString().compareTo(other.content.toString());
 	}
 
 	public void init(char c) {

@@ -24,7 +24,7 @@ package assignment2;
  * 			A new Identifier object which is a copy of src is created.
  * 	
 */	
-public interface IdentifierInterface extends Clonable<IdentifierInterface>{
+public interface IdentifierInterface extends Data<Identifier>{
 	
 	/* Initializes the Identifier object with content c.
 	 *  @precondition:
