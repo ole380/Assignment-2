@@ -16,7 +16,9 @@ public class Main {
 						INTERSECTION_OPERATOR = '*',
 						SET_OPEN_MARK = '{',
 						SET_CLOSE_MARK = '}',
-						COMPLEX_FACTOR_OPEN_MARK = '(';
+						COMPLEX_FACTOR_OPEN_MARK = '(',
+						COMPLEX_FACTOR_CLOSE_MARK = ')',
+						NATURAL_NUMBER_SEPERATOR = ',';
 
 	static final String LETTER_PATTERN = "[a-zA-Z]",
 						DIGIT_PATTERN = "[0-9]",
@@ -26,11 +28,11 @@ public class Main {
 						COMMENT_TYPE_STRING = "comment";
 
 	Scanner in;
-	// Table setTable;
+	//Table<Identifier, Set<NaturalNumber>> setTable;
 	PrintStream out;
 
 	Main() {
-		// setTable = new Table();
+		//setTable = new Table();
 		out = new PrintStream(System.out);
 	}
 
@@ -41,43 +43,58 @@ public class Main {
 		return in.nextLine();
 	}
 
-	void readPositiveNumber(Scanner numberScanner){
-		
+	NaturalNumber readNaturalNumber(Scanner naturalNumberScanner)throws APException{
+		NaturalNumber result = new NaturalNumber(nextChar(naturalNumberScanner));
+		readWhiteSpaces(naturalNumberScanner);
+		while(!nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR)){
+			if(result.isZero() && nextCharIs(naturalNumberScanner, '0')){
+				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
+			}else if(nextCharIsDigit(naturalNumberScanner)){
+				readWhiteSpaces(naturalNumberScanner);
+				result.addDigit(nextChar(naturalNumberScanner));
+			}else{
+				throw new APException("Error in input: natural numbers can only consist of digits, and should be seperated by ','.");
+			}
+		}
+		return result;
 	}
 	
-	void readSet(Scanner setScanner)throws APException{
+	Set<NaturalNumber> readSet(Scanner setScanner)throws APException{
+		Set<NaturalNumber> result = new Set<NaturalNumber>();
 		nextChar(setScanner);
-		while(setScanner.hasNext()){
-			readWhiteSpaces(setScanner);
+		readWhiteSpaces(setScanner);
+		while(!nextCharIs(setScanner, SET_CLOSE_MARK)){
 			if(nextCharIsDigit(setScanner)){
-				readPositiveNumber(setScanner);
-			}else if(nextCharIs(setScanner, SET_CLOSE_MARK)){
+				readWhiteSpaces(setScanner);
+				result.add(readNaturalNumber(setScanner));
+				readWhiteSpaces(setScanner);
 				nextChar(setScanner);
 			}else{
 				throw new APException("fout karakter gedetecteerd");
 			}
 		}
+		return result;
 	}
 	
-	void readFactor(Scanner factorScanner)throws APException{
+	Set<NaturalNumber> readFactor(Scanner factorScanner)throws APException{
+		Set<NaturalNumber> result = new Set<NaturalNumber>();
 		if(nextCharIsLetter(factorScanner)){
 			readIdentifier(factorScanner);
 		}else if(nextCharIs(factorScanner, SET_OPEN_MARK)){
-			readSet(factorScanner);
+			result = readSet(factorScanner);
 		}else if(nextCharIs(factorScanner, COMPLEX_FACTOR_OPEN_MARK)){
 			readExpression(factorScanner);
 		}else{
 			throw new APException("fout karakter gedetecteerd");
 		}
+		//return result;
 	}
 	
-	void readTerm(Scanner termScanner)throws APException{
+	Set<NaturalNumber> readTerm(Scanner termScanner)throws APException{
 		readFactor(termScanner);
-		readWhiteSpaces(termScanner);
 		while(termScanner.hasNext()){
 			if(nextCharIs(termScanner, INTERSECTION_OPERATOR)){
 				nextChar(termScanner);
-				readWhiteSpaces(termScanner);
 				readFactor(termScanner);
 			}else{
 				throw new APException("fout karakter gedetecteerd");
@@ -85,22 +102,20 @@ public class Main {
 		}
 	}
 	
-	void readExpression(Scanner expressionScanner)throws APException{
-		readWhiteSpaces(expressionScanner);
+	Set<NaturalNumber> readExpression(Scanner expressionScanner)throws APException{
 		readTerm(expressionScanner);
 		while (expressionScanner.hasNext()){
 			if(nextCharIs(expressionScanner, UNION_OPERATOR)){
 				nextChar(expressionScanner);
-				readWhiteSpaces(expressionScanner);
 				readTerm(expressionScanner);
 			}else if(nextCharIs(expressionScanner, COMPLEMENT_OPERATOR)){
 				nextChar(expressionScanner);
-				readWhiteSpaces(expressionScanner);
 				readTerm(expressionScanner);
 			}else if(nextCharIs(expressionScanner, SYMMETRIC_DIFFERENCE_OPERATOR)){
 				nextChar(expressionScanner);
-				readWhiteSpaces(expressionScanner);
 				readTerm(expressionScanner);
+			}else if(nextCharIs(expressionScanner, COMPLEX_FACTOR_CLOSE_MARK)){
+				
 			}else{
 				throw new APException("omdat er een teken is gevonden dat niet klopt");
 			}
@@ -116,7 +131,7 @@ public class Main {
 				if(nextCharIsAlphanumeric(identifierScanner)){
 					result.addCharacter(nextChar(identifierScanner));
 				}else{
-					throw new APException("Identifiers should only consist of alphanumeric characters and should be separated by \"=\".");
+					throw new APException("Identifiers should only consist of alphanumeric characters and should be separated from expressions by the \"=\" character.");
 				}
 			}
 		}else{
@@ -127,7 +142,6 @@ public class Main {
 	}
 	
 	void processPrintStatement(Scanner printStatementScanner)throws APException {
-		printStatementScanner.next();
 	}
 
 	void processAssignment(Scanner assignmentScanner)throws APException {
@@ -179,6 +193,7 @@ public class Main {
 		Scanner inputScanner = new Scanner(inputString);
 		inputScanner.useDelimiter("");
 		processInput(inputScanner);
+		inputScanner.close();
 	}
 
 	void start() {
