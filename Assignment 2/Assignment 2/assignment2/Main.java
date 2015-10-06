@@ -21,11 +21,7 @@ public class Main {
 						NATURAL_NUMBER_SEPERATOR = ',';
 
 	static final String LETTER_PATTERN = "[a-zA-Z]",
-						DIGIT_PATTERN = "[0-9]",
-						ERROR_TYPE_STRING = "error",
-						ASSIGNMENT_TYPE_STRING = "assignment",
-						PRINT_STATEMENT_TYPE_STRING = "print_statement",
-						COMMENT_TYPE_STRING = "comment";
+						DIGIT_PATTERN = "[0-9]";
 
 	Scanner in;
 	//Table<Identifier, Set<NaturalNumber>> setTable;
