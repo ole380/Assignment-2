@@ -24,11 +24,12 @@ public class Main {
 						DIGIT_PATTERN = "[0-9]";
 
 	Scanner in;
-	//Table<Identifier, Set<NaturalNumber>> setTable;
+	Table<Identifier, SetInterface<NaturalNumber>> setTable;
 	PrintStream out;
 
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	Main() {
-		//setTable = new Table();
+		setTable = new Table();
 		out = new PrintStream(System.out);
 	}
 

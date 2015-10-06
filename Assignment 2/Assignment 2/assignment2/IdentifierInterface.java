@@ -44,13 +44,13 @@ public interface IdentifierInterface extends Data<Identifier>{
 	 */
 	void addCharacter(char c);
 	
-	/* Removes and returns the last character that was added to the identifier.
+	/* Retrieves the character at a given position. The first char is on position 0.
 	 * @precondition
-	 * 		The identifier contains more than one element.
+	 * 		The given position not larger than length.
 	 * @postcondition
-	 * 		The character added last is removed from the PRE-identifier, and returned.
+	 * 		The character that is on the given position is returned.
 	 */
-	char removeLastCharacter();
+	char getCharAtPos(int pos);
 	
 	/* Returns an identifier as a String object.
 	 * @precondition

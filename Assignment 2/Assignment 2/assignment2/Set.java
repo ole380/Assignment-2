@@ -8,7 +8,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 		content = new List<E>();
 	}
 
-	public Set<E> clone() {
+	public SetInterface<E> clone() {
 		Set<E> result = new Set<E>();
 		result.content = content.clone();
 		return result;
@@ -38,7 +38,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 		return result;
 	}
 
-	public boolean isEqual(Set<E> set2) {
+	public boolean isEqual(SetInterface<E> set2) {
 		if (size() != set2.size()) {
 			return false;
 		}
@@ -61,7 +61,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 		return size() == 0;
 	}
 
-	public Set<E> difference(Set<E> set2) {
+	public SetInterface<E> difference(SetInterface<E> set2) {
 		Set<E> result = clone();
 		Set<E> temp = set2.clone();
 		for (int i = 0; i < temp.size(); i++) {
@@ -72,7 +72,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 		return result;
 	}
 
-	public Set<E> intersection(Set<E> set2) {
+	public SetInterface<E> intersection(SetInterface<E> set2) {
 		Set<E> result = new Set<E>();
 		Set<E> temp = clone();
 		for (int i = 0; i < temp.size(); i++) {
@@ -85,7 +85,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 		return result;
 	}
 
-	public Set<E> union(Set<E> set2) {
+	public SetInterface<E> union(SetInterface<E> set2) {
 		Set<E> result = clone();
 		Set<E> temp = set2.clone();
 		for (int i = 0; i < temp.size(); i++) {
@@ -96,7 +96,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 		return result;
 	}
 
-	public Set<E> symmetricDifference(Set<E> set2) {
+	public SetInterface<E> symmetricDifference(SetInterface<E> set2) {
 		return difference(set2).union(set2.difference(this));
 	}
 }

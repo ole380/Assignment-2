@@ -21,7 +21,7 @@ public class Identifier implements IdentifierInterface {
 	}
 	
 	public int compareTo(Identifier other) {
-		return content.toString().compareTo(other.content.toString());
+		return toString().compareTo(content.toString());
 	}
 
 	public void init(char c) {
@@ -35,10 +35,12 @@ public class Identifier implements IdentifierInterface {
 		length++;
 	}
 
-	public char removeLastCharacter() {
-		char result = content.charAt(length-1);
-		content.setLength(length-1);
-		return result;
+	public char getCharAtPos(int pos){
+		return content.charAt(pos);
+	}
+	
+	public String toString(){
+		return content.toString();
 	}
 
 	public int length() {
