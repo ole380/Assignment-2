@@ -41,13 +41,11 @@ public class Main {
 
 	NaturalNumber readNaturalNumber(Scanner naturalNumberScanner)throws APException{
 		NaturalNumber result = new NaturalNumber(nextChar(naturalNumberScanner));
-		readWhiteSpaces(naturalNumberScanner);
 		while(!nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR)){
 			if(result.isZero() && nextCharIs(naturalNumberScanner, '0')){
 				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
 			}else if(nextCharIsDigit(naturalNumberScanner)){
 				result.addDigit(nextChar(naturalNumberScanner));
-				readWhiteSpaces(naturalNumberScanner);
 			}else{
 				throw new APException("Error in input: natural numbers can only consist of digits and should be seperated by ','.");
 			}
@@ -58,18 +56,14 @@ public class Main {
 	Set<NaturalNumber> readSet(Scanner setScanner)throws APException{
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
 		nextChar(setScanner);
-		readWhiteSpaces(setScanner);
 		while(!nextCharIs(setScanner, SET_CLOSE_MARK)){
 			if(nextCharIsDigit(setScanner)){
 				result.add(readNaturalNumber(setScanner));
-				readWhiteSpaces(setScanner);
 				nextChar(setScanner);
-				readWhiteSpaces(setScanner);
 			}else{
 				throw new APException("Error in input: Sets can only contain natural numbers seperated by ',' and should be closed by '}'.");
 			}
 			nextChar(setScanner);
-			readWhiteSpaces(setScanner);
 		}
 		return result;
 	}
@@ -125,7 +119,6 @@ public class Main {
 		if(nextCharIsLetter(identifierScanner)){
 			result = new Identifier(nextChar(identifierScanner));
 			while(!nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)){
-				readWhiteSpaces(identifierScanner);
 				if(nextCharIsAlphanumeric(identifierScanner)){
 					result.addCharacter(nextChar(identifierScanner));
 				}else{
@@ -152,7 +145,9 @@ public class Main {
 	}
 
 	char nextChar(Scanner in){
-		return in.next().charAt(0);
+		char result = in.next().charAt(0);
+		readWhiteSpaces(in);
+		return result;
 	}
 	
 	boolean nextCharIsAlphanumeric(Scanner in){
