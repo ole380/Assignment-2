@@ -50,10 +50,10 @@ public class Main {
 			if(result.isZero() && nextCharIs(naturalNumberScanner, '0')){
 				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
 			}else if(nextCharIsDigit(naturalNumberScanner)){
-				readWhiteSpaces(naturalNumberScanner);
 				result.addDigit(nextChar(naturalNumberScanner));
+				readWhiteSpaces(naturalNumberScanner);
 			}else{
-				throw new APException("Error in input: natural numbers can only consist of digits, and should be seperated by ','.");
+				throw new APException("Error in input: natural numbers can only consist of digits and should be seperated by ','.");
 			}
 		}
 		return result;
@@ -65,13 +65,15 @@ public class Main {
 		readWhiteSpaces(setScanner);
 		while(!nextCharIs(setScanner, SET_CLOSE_MARK)){
 			if(nextCharIsDigit(setScanner)){
-				readWhiteSpaces(setScanner);
 				result.add(readNaturalNumber(setScanner));
 				readWhiteSpaces(setScanner);
 				nextChar(setScanner);
+				readWhiteSpaces(setScanner);
 			}else{
-				throw new APException("fout karakter gedetecteerd");
+				throw new APException("Error in input: Sets can only contain natural numbers seperated by ',' and should be closed by '}'.");
 			}
+			nextChar(setScanner);
+			readWhiteSpaces(setScanner);
 		}
 		return result;
 	}
@@ -79,13 +81,13 @@ public class Main {
 	Set<NaturalNumber> readFactor(Scanner factorScanner)throws APException{
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
 		if(nextCharIsLetter(factorScanner)){
-			readIdentifier(factorScanner);
+			Identifier key = readIdentifier(factorScanner, false);
 		}else if(nextCharIs(factorScanner, SET_OPEN_MARK)){
 			result = readSet(factorScanner);
 		}else if(nextCharIs(factorScanner, COMPLEX_FACTOR_OPEN_MARK)){
 			readExpression(factorScanner);
 		}else{
-			throw new APException("fout karakter gedetecteerd");
+			throw new APException("Error in input:");
 		}
 		//return result;
 	}
@@ -97,7 +99,7 @@ public class Main {
 				nextChar(termScanner);
 				readFactor(termScanner);
 			}else{
-				throw new APException("fout karakter gedetecteerd");
+				throw new APException("wrong character detected");
 			}
 		}
 	}
@@ -117,12 +119,12 @@ public class Main {
 			}else if(nextCharIs(expressionScanner, COMPLEX_FACTOR_CLOSE_MARK)){
 				
 			}else{
-				throw new APException("omdat er een teken is gevonden dat niet klopt");
+				throw new APException("wrong character detected");
 			}
 		}
 	}
 	
-	Identifier readIdentifier(Scanner identifierScanner)throws APException{
+	Identifier readIdentifier(Scanner identifierScanner, boolean isAssignment)throws APException{
 		Identifier result;
 		if(nextCharIsLetter(identifierScanner)){
 			result = new Identifier(nextChar(identifierScanner));
@@ -131,7 +133,11 @@ public class Main {
 				if(nextCharIsAlphanumeric(identifierScanner)){
 					result.addCharacter(nextChar(identifierScanner));
 				}else{
-					throw new APException("Identifiers should only consist of alphanumeric characters and should be separated from expressions by the \"=\" character.");
+					if(isAssignment == true){
+						throw new APException("Identifiers should only consist of alphanumeric characters and should be separated from expressions by '='.");
+					}else{
+						throw new APException("Identifiers should only consist of alphanumeric characters .");
+					}
 				}
 			}
 		}else{
@@ -145,7 +151,7 @@ public class Main {
 	}
 
 	void processAssignment(Scanner assignmentScanner)throws APException {
-		Identifier test = readIdentifier(assignmentScanner);
+		Identifier test = readIdentifier(assignmentScanner, true);
 		out.printf("%d", test.length());
 	}
 
