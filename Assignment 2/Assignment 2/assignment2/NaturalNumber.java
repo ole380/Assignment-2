@@ -1,7 +1,6 @@
 package assignment2;
 
-//Does not compile because compareTo(NaturalNumberInterface) is not possible,
-//since NaturalNumberInterface does not have StringBuffer content.
+
 public class NaturalNumber implements NaturalNumberInterface {
 
 	private StringBuffer content;
