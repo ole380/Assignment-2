@@ -24,7 +24,7 @@ package assignment2;
  * 			A new Identifier object which is a copy of src is created.
  * 	
 */	
-public interface IdentifierInterface extends Data<Identifier>{
+public interface IdentifierInterface extends Data<IdentifierInterface>{
 	
 	/* Initializes the Identifier object with content c.
 	 *  @precondition:

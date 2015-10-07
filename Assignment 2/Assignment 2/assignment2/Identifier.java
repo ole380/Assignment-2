@@ -20,7 +20,7 @@ public class Identifier implements IdentifierInterface {
 		return result;
 	}
 	
-	public int compareTo(Identifier other) {
+	public int compareTo(IdentifierInterface other) {
 		return toString().compareTo(content.toString());
 	}
 
