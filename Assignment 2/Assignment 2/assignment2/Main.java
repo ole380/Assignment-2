@@ -85,7 +85,7 @@ public class Main {
 	
 	Set<NaturalNumber> readTerm(Scanner termScanner)throws APException{
 		readFactor(termScanner);
-		while(termScanner.hasNext()){
+		while(nextCharIs(termScanner, INTERSECTION_OPERATOR)){
 			if(nextCharIs(termScanner, INTERSECTION_OPERATOR)){
 				nextChar(termScanner);
 				readFactor(termScanner);
@@ -97,7 +97,7 @@ public class Main {
 	
 	Set<NaturalNumber> readExpression(Scanner expressionScanner)throws APException{
 		readTerm(expressionScanner);
-		while (expressionScanner.hasNext()){
+		while (nextCharIsAdditiveOperator(expressionScanner)){
 			if(nextCharIs(expressionScanner, UNION_OPERATOR)){
 				nextChar(expressionScanner);
 				readTerm(expressionScanner);
@@ -153,6 +153,10 @@ public class Main {
 	
 	boolean nextCharIsAlphanumeric(Scanner in){
 		return nextCharIsDigit(in)||nextCharIsLetter(in);
+	}
+	
+	boolean nextCharIsAdditiveOperator(Scanner in){
+		return in.hasNext((Pattern.quote(UNION_OPERATOR+""))) || in.hasNext((Pattern.quote(COMPLEMENT_OPERATOR+""))) || in.hasNext((Pattern.quote(SYMMETRIC_DIFFERENCE_OPERATOR+"")));
 	}
 	
 	boolean nextCharIs(Scanner in, char c){
