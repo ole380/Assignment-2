@@ -49,15 +49,13 @@ public interface NaturalNumberInterface extends Data<NaturalNumber> {
 	void addDigit(char c);
 
 	/**
-	 * Removes and returns the last digit that was added to the
-	 * NaturalNumberInterface.
+	 * Returns the digit at position pos.
 	 * 
-	 * @precondition The NaturalNumberInterface contains more than one element.
+	 * @precondition pos must be less than length().
 	 * 
-	 * @postcondition The last digit is removed from the PRE-identifier, and
-	 * returned.
+	 * @postcondition The digit at position pos is returned as a char.
 	 */
-	char removeLastDigit();
+	char getDigitAt(int pos);
 
 	/**
 	 * Returns an identifier as a String object.

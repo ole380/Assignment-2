@@ -57,10 +57,12 @@ public class NaturalNumber implements NaturalNumberInterface {
 		}
 	}
 
-	public char removeLastDigit() {
-		char res = content.charAt(length-1);
-		content.setLength(length-1);
-		return res;
+	public char getDititAt(int pos) {
+		return content.charAt(pos);
+	}
+	
+	public String toString() {
+		return content.toString();
 	}
 
 	public int length() {
