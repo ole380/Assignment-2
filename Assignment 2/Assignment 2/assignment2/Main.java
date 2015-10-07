@@ -138,11 +138,14 @@ public class Main {
 	}
 	
 	void processPrintStatement(Scanner printStatementScanner)throws APException {
+		nextChar(printStatementScanner);
+		Set<NaturalNumber> value = readExpression(printStatementScanner);
 	}
 
 	void processAssignment(Scanner assignmentScanner)throws APException {
-		Identifier test = readIdentifier(assignmentScanner, true);
-		out.printf("%d", test.length());
+		Identifier key = readIdentifier(assignmentScanner, true);
+		nextChar(assignmentScanner);
+		Set<NaturalNumber> value = readExpression(assignmentScanner);
 	}
 
 	char nextChar(Scanner in){
