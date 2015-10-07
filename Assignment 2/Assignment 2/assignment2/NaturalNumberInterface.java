@@ -13,7 +13,7 @@ package assignment2;
  * @postcondition A new NaturalNumberInterface object is created with value c.
  **/
 
-public interface NaturalNumberInterface extends Data<NaturalNumber> {
+public interface NaturalNumberInterface extends Data<NaturalNumberInterface> {
 
 	/**
 	 * Initializes the NaturalNumber object with value c.
