@@ -35,7 +35,7 @@ public class Identifier implements IdentifierInterface {
 		length++;
 	}
 
-	public char getCharAtPos(int pos){
+	public char getCharAt(int pos){
 		return content.charAt(pos);
 	}
 	

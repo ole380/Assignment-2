@@ -50,7 +50,7 @@ public interface IdentifierInterface extends Data<Identifier>{
 	 * @postcondition
 	 * 		The character that is on the given position is returned.
 	 */
-	char getCharAtPos(int pos);
+	char getCharAt(int pos);
 	
 	/* Returns an identifier as a String object.
 	 * @precondition
