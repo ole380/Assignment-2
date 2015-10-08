@@ -154,6 +154,9 @@ public class Main {
 	void processPrintStatement(Scanner printStatementScanner)throws APException {
 		nextChar(printStatementScanner,true);
 		SetInterface<NaturalNumberInterface> value = readExpression(printStatementScanner);
+		if (printStatementScanner.hasNext()) {
+			throw new APException("Error: expressions must be followed by end of line.");
+		}
 		String result = "";
 		while(!value.isEmpty()){
 			NaturalNumberInterface naturalNumber = value.get();
@@ -174,6 +177,9 @@ public class Main {
 			throw new APException("A '=' was expected to assign a value, but no character could be read.");
 		}
 		SetInterface<NaturalNumberInterface> value = readExpression(assignmentScanner);
+		if (assignmentScanner.hasNext()) {
+			throw new APException("Error: expressions must be followed by end of line.");
+		}
 		if(setTable.contains(key)){
 			setTable.remove(key);
 		}
