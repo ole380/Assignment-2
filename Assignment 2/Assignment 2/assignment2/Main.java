@@ -83,7 +83,11 @@ public class Main {
 		}else if(nextCharIs(factorScanner, COMPLEX_FACTOR_OPEN_MARK)){
 			nextChar(factorScanner, true);
 			result = readExpression(factorScanner);
-			nextChar(factorScanner, true);
+			if(factorScanner.hasNext()){
+				nextChar(factorScanner, true);
+			}else{
+				throw new APException("A ')' was expected to close the factor, but no character could be read.");
+			}
 		}else{
 			throw new APException("Error in input:");
 		}
@@ -164,7 +168,11 @@ public class Main {
 
 	void processAssignment(Scanner assignmentScanner)throws APException {
 		IdentifierInterface key = readIdentifier(assignmentScanner, true);
-		nextChar(assignmentScanner, true);
+		if(assignmentScanner.hasNext()){
+			nextChar(assignmentScanner, true);
+		}else{
+			throw new APException("A '=' was expected to assign a value, but no character could be read.");
+		}
 		SetInterface<NaturalNumberInterface> value = readExpression(assignmentScanner);
 		if(setTable.contains(key)){
 			setTable.remove(key);
