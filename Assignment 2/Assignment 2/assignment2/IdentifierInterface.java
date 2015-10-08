@@ -23,9 +23,9 @@ package assignment2;
  * 		postcondition
  * 			A new Identifier object which is a copy of src is created.
  * 	
-*/	
+ */	
 public interface IdentifierInterface extends Data<IdentifierInterface>{
-	
+
 	/* Initializes the Identifier object with content c.
 	 *  @precondition:
 	 *  	Character c is a letter.
@@ -33,9 +33,9 @@ public interface IdentifierInterface extends Data<IdentifierInterface>{
 	 *  	The Identifier object contains only the content c.
 	 */
 	void init(char c);
-	
+
 	// Elementary operations for read & write
-	
+
 	/* Adds a character c to the Identifier.
 	 * @precondition
 	 * 		Character c is a letter.
@@ -43,7 +43,7 @@ public interface IdentifierInterface extends Data<IdentifierInterface>{
 	 * 		The character c is added to the end of the Identifier.
 	 */
 	void addCharacter(char c);
-	
+
 	/* Retrieves the character at a given position. The first char is on position 0.
 	 * @precondition
 	 * 		The given position not larger than length.
@@ -51,7 +51,7 @@ public interface IdentifierInterface extends Data<IdentifierInterface>{
 	 * 		The character that is on the given position is returned.
 	 */
 	char getCharAt(int pos);
-	
+
 	/* Returns an identifier as a String object.
 	 * @precondition
 	 * 		None.
@@ -59,9 +59,9 @@ public interface IdentifierInterface extends Data<IdentifierInterface>{
 	 * 		The content of the identifier is returned as a String object.
 	 */
 	String toString();
-	
+
 	// Natural operations
-	
+
 	/* Checks the amount of characters in an identifier.
 	 * precondition
 	 * 		None.

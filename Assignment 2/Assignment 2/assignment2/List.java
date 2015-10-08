@@ -60,7 +60,7 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 				first = newNode;
 			} else { // current points to last element <= d
 				if (current.next != null) { // newNode comes after current and
-											// will not be last
+					// will not be last
 					newNode.next = current.next;
 					current.next.prior = newNode;	
 				}
@@ -152,7 +152,7 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 			return true;
 		}
 	}
-	
+
 	private class Node<E extends Data<E>> {
 		E data;
 		Node<E> prior, next;

@@ -169,7 +169,7 @@ public class Main {
 		if(setTable.contains(key)){
 			setTable.remove(key);
 		}
-			setTable.add(key, value);
+		setTable.add(key, value);
 	}
 
 	char nextChar(Scanner in, boolean whiteSpaceAllowed){
@@ -219,7 +219,7 @@ public class Main {
 	}
 
 	void start() {
-		in = new Scanner(System.in);
+		in = new Scanner(System.in);		
 		while(in.hasNextLine()){
 			Scanner inputScanner = new Scanner(in.nextLine());
 			inputScanner.useDelimiter("");

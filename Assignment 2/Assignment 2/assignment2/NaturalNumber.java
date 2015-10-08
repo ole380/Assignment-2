@@ -11,7 +11,7 @@ public class NaturalNumber implements NaturalNumberInterface {
 		content.append(c);
 		length = 1;
 	}
-	
+
 	public NaturalNumber clone() {
 		char firstDigit = content.charAt(0);
 		NaturalNumber result = new NaturalNumber(firstDigit);
@@ -60,7 +60,7 @@ public class NaturalNumber implements NaturalNumberInterface {
 	public char getDigitAt(int pos) {
 		return content.charAt(pos);
 	}
-	
+
 	public String toString() {
 		return content.toString();
 	}

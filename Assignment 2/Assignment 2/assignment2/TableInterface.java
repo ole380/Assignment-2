@@ -28,7 +28,7 @@ public interface TableInterface<K extends Data<K>, V extends Clonable<V>> extend
 	 *  	The TableInterface is empty.
 	 */
 	void init();
-	
+
 	/** Check if key K is in the table.
 	 *  @precondition:
 	 *  	None.
@@ -37,7 +37,7 @@ public interface TableInterface<K extends Data<K>, V extends Clonable<V>> extend
 	 * 		FALSE: K is not in the table.
 	 */
 	boolean contains(K key);
-	
+
 	/** Find the value belonging to key K.
 	 *  @precondition:
 	 *  	K is in the table.
@@ -45,7 +45,7 @@ public interface TableInterface<K extends Data<K>, V extends Clonable<V>> extend
 	 *  	The value belonging to K is returned.
 	 */
 	V find(K key);
-	
+
 	/** Add the pair (key, value) to the table.
 	 *  If key is already present, overwrite the value.
 	 *  @precondition:
@@ -54,7 +54,7 @@ public interface TableInterface<K extends Data<K>, V extends Clonable<V>> extend
 	 * 		The table contains (key, value).
 	 */
 	void add(K key, V value);
-	
+
 	/** Removes a key, and its corresponding value from the table, if present.
 	 * @precondition
 	 * 		None.

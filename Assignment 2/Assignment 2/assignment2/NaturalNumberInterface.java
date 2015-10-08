@@ -23,7 +23,7 @@ public interface NaturalNumberInterface extends Data<NaturalNumberInterface> {
 	 * @postcondition: The NaturalNumberIdentifer object has value c.
 	 */
 	void init(char c);
-	
+
 	/**
 	 * Checks if the current value is zero.
 	 * 

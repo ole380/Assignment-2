@@ -4,13 +4,13 @@ public class Identifier implements IdentifierInterface {
 
 	private StringBuffer content;
 	private int length;
-	
+
 	Identifier(char c) {
 		content = new StringBuffer();
 		content.append(c);
 		length = 1;
 	}
-	
+
 	public Identifier clone() {
 		char firstChar = content.charAt(0);
 		Identifier result = new Identifier(firstChar);
@@ -19,7 +19,7 @@ public class Identifier implements IdentifierInterface {
 		}
 		return result;
 	}
-	
+
 	public int compareTo(IdentifierInterface other) {
 		return toString().compareTo(other.toString());
 	}
@@ -38,7 +38,7 @@ public class Identifier implements IdentifierInterface {
 	public char getCharAt(int pos){
 		return content.charAt(pos);
 	}
-	
+
 	public String toString(){
 		return content.toString();
 	}
