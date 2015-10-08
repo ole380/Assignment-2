@@ -73,7 +73,7 @@ public class Main {
 		if(nextCharIsLetter(factorScanner)){
 			IdentifierInterface key = readIdentifier(factorScanner, false);
 			if(setTable.contains(key)){
-				result = setTable.find(key);
+				result = setTable.find(key).clone();
 			}else{
 				out.printf("Identifier %s",key.toString());
 				throw new APException(" has no value assigned to it.");
@@ -179,9 +179,6 @@ public class Main {
 		SetInterface<NaturalNumberInterface> value = readExpression(assignmentScanner);
 		if (assignmentScanner.hasNext()) {
 			throw new APException("Error: expressions must be followed by end of line.");
-		}
-		if(setTable.contains(key)){
-			setTable.remove(key);
 		}
 		setTable.add(key, value);
 	}
