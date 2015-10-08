@@ -133,7 +133,7 @@ public class Main {
 					result.addCharacter(nextChar(identifierScanner, false));
 				}else if(nextCharIs(identifierScanner, ' ')){
 					readWhiteSpaces(identifierScanner);
-					if (!((nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)) || nextCharIsAdditiveOperator(identifierScanner))){
+					if (!((nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)) || nextCharIsAdditiveOperator(identifierScanner) || nextCharIs(identifierScanner, INTERSECTION_OPERATOR))){
 						throw new APException("Error in input: identifiers cannot contain whitespaces and should be seperated by '='.");
 					}
 				}else{
@@ -161,10 +161,10 @@ public class Main {
 		while(!value.isEmpty()){
 			NaturalNumberInterface naturalNumber = value.get();
 			value.remove(naturalNumber);
-			result += naturalNumber.toString() + " ";	
+			result += naturalNumber.toString() + ", ";	
 		}
 		if(!(result.length() == 0)){
-			result = result.substring(0, result.length()-1);
+			result = result.substring(0, result.length()-2);
 		}
 		out.printf("%c%s%c\n", SET_OPEN_MARK, result, SET_CLOSE_MARK);
 	}
@@ -229,7 +229,7 @@ public class Main {
 			processAssignment(inputScanner);
 		}else if(nextCharIs(inputScanner, PRINT_STATEMENT_TYPE_MARKER)){
 			processPrintStatement(inputScanner);
-		}else if(nextCharIs(inputScanner, COMMENT_TYPE_MARKER)){
+		}else if(nextCharIs(inputScanner, COMMENT_TYPE_MARKER) || !inputScanner.hasNext()){
 			//does nothing when a comment is detected
 		}else{
 			throw new APException("Input error, expecting a letter, question mark or back-slash.");
