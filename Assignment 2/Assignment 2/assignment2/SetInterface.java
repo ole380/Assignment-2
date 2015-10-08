@@ -54,7 +54,7 @@ public interface SetInterface<E extends Data<E>> extends Clonable<SetInterface<E
 	 **/
 	void remove(E element);
 
-	/** Return element that is in the set.
+	/** Return an element that is in the set.
 	 * @precondition
 	 * 		The set is not empty.
 	 * @postcondition
