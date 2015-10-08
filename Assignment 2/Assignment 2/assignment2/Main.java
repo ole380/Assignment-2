@@ -39,11 +39,15 @@ public class Main {
 				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
 			}else if(nextCharIsDigit(naturalNumberScanner)){
 				result.addDigit(nextChar(naturalNumberScanner, false));//hier geen whitespaces lezen
+			}else if(nextCharIs(naturalNumberScanner, ' ')){
+				readWhiteSpaces(naturalNumberScanner);
+				if (!(nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) || nextCharIs(naturalNumberScanner, SET_CLOSE_MARK))){
+					throw new APException("Error in input: natural numbers cannot contain whitespaces and should be seperated by ','.");
+				}
 			}else{
 				throw new APException("Error in input: natural numbers can only consist of digits and should be seperated by ','.");
 			}
 		}
-		readWhiteSpaces(naturalNumberScanner);//hier whitespaces lezen
 		return result;
 	}
 
@@ -68,7 +72,12 @@ public class Main {
 		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
 		if(nextCharIsLetter(factorScanner)){
 			IdentifierInterface key = readIdentifier(factorScanner, false);
-			result = setTable.find(key);
+			if(setTable.contains(key)){
+				result = setTable.find(key);
+			}else{
+				out.printf("Identifier %s",key.toString());
+				throw new APException(" has no value assigned to it.");
+			}
 		}else if(nextCharIs(factorScanner, SET_OPEN_MARK)){
 			result = readSet(factorScanner);
 		}else if(nextCharIs(factorScanner, COMPLEX_FACTOR_OPEN_MARK)){
@@ -115,14 +124,19 @@ public class Main {
 		IdentifierInterface result;
 		if(nextCharIsLetter(identifierScanner)){
 			result = new Identifier(nextChar(identifierScanner, false));//hier geen whitespaces lezen
-			while(identifierScanner.hasNext() && !nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)){
+			while(!nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR) && !nextCharIsAdditiveOperator(identifierScanner) && identifierScanner.hasNextLine()){
 				if(nextCharIsAlphanumeric(identifierScanner)){
 					result.addCharacter(nextChar(identifierScanner, false));//hier geen whitespaces lezen
+				}else if(nextCharIs(identifierScanner, ' ')){
+					readWhiteSpaces(identifierScanner);
+					if (!((nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)) || nextCharIsAdditiveOperator(identifierScanner))){
+						throw new APException("Error in input: identifiers cannot contain whitespaces and should be seperated by '='.");
+					}
 				}else{
 					if(isAssignment == true){
 						throw new APException("Identifiers should only consist of alphanumeric characters and should be separated from expressions by '='.");
 					}else{
-						throw new APException("Identifiers should only consist of alphanumeric characters .");
+						throw new APException("Identifiers should only consist of alphanumeric characters.");
 					}
 				}
 			}
@@ -130,7 +144,6 @@ public class Main {
 			throw new Error("The program made an attempt to read an identifier that starts with another character than a letter, this should not be possible.");
 			//This exception should not be thrown as this is checked earlier in the program.
 		}
-		readWhiteSpaces(identifierScanner);//hier whitespaces lezen
 		return result;
 	}
 
@@ -159,7 +172,7 @@ public class Main {
 	char nextChar(Scanner in, boolean whiteSpaceAllowed){
 		char result = in.next().charAt(0);
 		if(whiteSpaceAllowed){
-		readWhiteSpaces(in);
+			readWhiteSpaces(in);
 		}
 		return result;
 	}
@@ -169,6 +182,7 @@ public class Main {
 	}
 
 	boolean nextCharIsAdditiveOperator(Scanner in){
+		boolean result =in.hasNext((Pattern.quote(UNION_OPERATOR+""))) || in.hasNext((Pattern.quote(COMPLEMENT_OPERATOR+""))) || in.hasNext((Pattern.quote(SYMMETRIC_DIFFERENCE_OPERATOR+"")));
 		return in.hasNext((Pattern.quote(UNION_OPERATOR+""))) || in.hasNext((Pattern.quote(COMPLEMENT_OPERATOR+""))) || in.hasNext((Pattern.quote(SYMMETRIC_DIFFERENCE_OPERATOR+"")));
 	}
 
