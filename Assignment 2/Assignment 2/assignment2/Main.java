@@ -2,6 +2,7 @@ package assignment2;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
+import java.io.InputStream;
 import java.io.PrintStream;
 
 public class Main {
@@ -31,41 +32,35 @@ public class Main {
 		out = new PrintStream(System.out);
 	}
 
-	String getInput(Scanner in) {
-		if(!in.hasNextLine()){
-			System.exit(0);
-		}
-		return in.nextLine();
-	}
-
 	NaturalNumberInterface readNaturalNumber(Scanner naturalNumberScanner)throws APException{
-		NaturalNumberInterface result = new NaturalNumber(nextChar(naturalNumberScanner));
+		NaturalNumberInterface result = new NaturalNumber(nextChar(naturalNumberScanner, false));//hier geen whitespaces lezen
 		while(!nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) && !nextCharIs(naturalNumberScanner, SET_CLOSE_MARK)){
 			if(result.isZero() && nextCharIs(naturalNumberScanner, '0')){
 				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
 			}else if(nextCharIsDigit(naturalNumberScanner)){
-				result.addDigit(nextChar(naturalNumberScanner));
+				result.addDigit(nextChar(naturalNumberScanner, false));//hier geen whitespaces lezen
 			}else{
 				throw new APException("Error in input: natural numbers can only consist of digits and should be seperated by ','.");
 			}
 		}
+		readWhiteSpaces(naturalNumberScanner);//hier whitespaces lezen
 		return result;
 	}
 
 	SetInterface<NaturalNumberInterface> readSet(Scanner setScanner)throws APException{
 		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
-		nextChar(setScanner);
+		nextChar(setScanner, true);//hier whitespaces lezen
 		while(!nextCharIs(setScanner, SET_CLOSE_MARK)){
 			if(nextCharIsDigit(setScanner)){
 				result.add(readNaturalNumber(setScanner));
 				if(nextCharIs(setScanner, NATURAL_NUMBER_SEPERATOR)){
-					nextChar(setScanner);
+					nextChar(setScanner, true);//hier whitespaces lezen
 				}
 			}else{
 				throw new APException("Error in input: Sets can only contain natural numbers seperated by ',' and should be closed by '}'.");
 			}
 		}
-		nextChar(setScanner);
+		nextChar(setScanner, true);//hier whitespaces lezen
 		return result;
 	}
 
@@ -77,9 +72,9 @@ public class Main {
 		}else if(nextCharIs(factorScanner, SET_OPEN_MARK)){
 			result = readSet(factorScanner);
 		}else if(nextCharIs(factorScanner, COMPLEX_FACTOR_OPEN_MARK)){
-			nextChar(factorScanner);
+			nextChar(factorScanner, true);//hier whitespaces lezen
 			result = readExpression(factorScanner);
-			nextChar(factorScanner);
+			nextChar(factorScanner, true);//hier whitespaces lezen
 		}else{
 			throw new APException("Error in input:");
 		}
@@ -90,7 +85,7 @@ public class Main {
 		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
 		result = readFactor(termScanner);
 		while(nextCharIs(termScanner, INTERSECTION_OPERATOR)){
-			nextChar(termScanner);
+			nextChar(termScanner, true);//hier whitespaces lezen
 			result = result.intersection(readFactor(termScanner));
 		}
 		return result;
@@ -101,13 +96,13 @@ public class Main {
 		result = readTerm(expressionScanner);
 		while (nextCharIsAdditiveOperator(expressionScanner)){
 			if(nextCharIs(expressionScanner, UNION_OPERATOR)){
-				nextChar(expressionScanner);
+				nextChar(expressionScanner, true);//hier whitespaces lezen
 				result = result.union(readTerm(expressionScanner));
 			}else if(nextCharIs(expressionScanner, COMPLEMENT_OPERATOR)){
-				nextChar(expressionScanner);
+				nextChar(expressionScanner, true);//hier whitespaces lezen
 				result = result.difference(readTerm(expressionScanner));
 			}else if(nextCharIs(expressionScanner, SYMMETRIC_DIFFERENCE_OPERATOR)){
-				nextChar(expressionScanner);
+				nextChar(expressionScanner, true);//hier whitespaces lezen
 				result = result.symmetricDifference(readTerm(expressionScanner));
 			}else{
 				throw new APException("wrong character detected");
@@ -119,10 +114,10 @@ public class Main {
 	IdentifierInterface readIdentifier(Scanner identifierScanner, boolean isAssignment)throws APException{
 		IdentifierInterface result;
 		if(nextCharIsLetter(identifierScanner)){
-			result = new Identifier(nextChar(identifierScanner));
+			result = new Identifier(nextChar(identifierScanner, false));//hier geen whitespaces lezen
 			while(identifierScanner.hasNext() && !nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)){
 				if(nextCharIsAlphanumeric(identifierScanner)){
-					result.addCharacter(nextChar(identifierScanner));
+					result.addCharacter(nextChar(identifierScanner, false));//hier geen whitespaces lezen
 				}else{
 					if(isAssignment == true){
 						throw new APException("Identifiers should only consist of alphanumeric characters and should be separated from expressions by '='.");
@@ -132,14 +127,15 @@ public class Main {
 				}
 			}
 		}else{
-			throw new APException("Identifiers should start with a letter.");
-			//This exception should not be thrown as this is checked earlier.
+			throw new Error("The program made an attempt to read an identifier that starts with another character than a letter, this should not be possible.");
+			//This exception should not be thrown as this is checked earlier in the program.
 		}
+		readWhiteSpaces(identifierScanner);//hier whitespaces lezen
 		return result;
 	}
 
 	void processPrintStatement(Scanner printStatementScanner)throws APException {
-		nextChar(printStatementScanner);
+		nextChar(printStatementScanner,true);//hier whitespaces lezen
 		SetInterface<NaturalNumberInterface> value = readExpression(printStatementScanner);
 		String result = "";
 		while(!value.isEmpty()){
@@ -155,14 +151,16 @@ public class Main {
 
 	void processAssignment(Scanner assignmentScanner)throws APException {
 		IdentifierInterface key = readIdentifier(assignmentScanner, true);
-		nextChar(assignmentScanner);
+		nextChar(assignmentScanner, true);//hier whitespaces lezen
 		SetInterface<NaturalNumberInterface> value = readExpression(assignmentScanner);
 		setTable.add(key, value);
 	}
 
-	char nextChar(Scanner in){
+	char nextChar(Scanner in, boolean whiteSpaceAllowed){
 		char result = in.next().charAt(0);
+		if(whiteSpaceAllowed){
 		readWhiteSpaces(in);
+		}
 		return result;
 	}
 
@@ -192,8 +190,7 @@ public class Main {
 		}
 	}
 
-	void processInput(Scanner inputScanner)throws APException {
-		readWhiteSpaces(inputScanner);
+	void readStatement(Scanner inputScanner)throws APException {
 		if(nextCharIsLetter(inputScanner)){
 			processAssignment(inputScanner);
 		}else if(nextCharIs(inputScanner, PRINT_STATEMENT_TYPE_MARKER)){
@@ -205,29 +202,22 @@ public class Main {
 		}
 	}
 
-	void runProgram(Scanner in)throws APException{
-		String inputString = getInput(in);
-		Scanner inputScanner = new Scanner(inputString);
-		inputScanner.useDelimiter("");
-		processInput(inputScanner);
-		inputScanner.close();
-	}
-
 	void start() {
 		in = new Scanner(System.in);
-		while (true) {
+		while(in.hasNextLine()){
+			Scanner inputScanner = new Scanner(in.nextLine());
+			inputScanner.useDelimiter("");
+			readWhiteSpaces(inputScanner);
 			try {
-				runProgram(in);
+				readStatement(inputScanner);
 			} catch (APException e) {
 				out.printf("%s\n", e.getMessage());
 			}
 		}
-
 	}
 
 	public static void main(String[] args) {
 		new Main().start();
 
 	}
-
 }
