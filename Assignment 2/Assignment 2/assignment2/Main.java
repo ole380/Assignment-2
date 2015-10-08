@@ -124,7 +124,7 @@ public class Main {
 		IdentifierInterface result;
 		if(nextCharIsLetter(identifierScanner)){
 			result = new Identifier(nextChar(identifierScanner, false));
-			while(!nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR) && !nextCharIsAdditiveOperator(identifierScanner) && identifierScanner.hasNextLine()){
+			while(!nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR) && !nextCharIsOperator(identifierScanner) && identifierScanner.hasNextLine()){
 				if(nextCharIsAlphanumeric(identifierScanner)){
 					result.addCharacter(nextChar(identifierScanner, false));
 				}else if(nextCharIs(identifierScanner, ' ')){
@@ -185,7 +185,11 @@ public class Main {
 	}
 
 	boolean nextCharIsAdditiveOperator(Scanner in){
-		return in.hasNext((Pattern.quote(UNION_OPERATOR+""))) || in.hasNext((Pattern.quote(COMPLEMENT_OPERATOR+""))) || in.hasNext((Pattern.quote(SYMMETRIC_DIFFERENCE_OPERATOR+"")));
+		return in.hasNext(Pattern.quote(UNION_OPERATOR+"")) || in.hasNext((Pattern.quote(COMPLEMENT_OPERATOR+""))) || in.hasNext(Pattern.quote(SYMMETRIC_DIFFERENCE_OPERATOR+""));
+	}
+	
+	boolean nextCharIsOperator(Scanner in) {
+		return in.hasNext(Pattern.quote(INTERSECTION_OPERATOR+"")) || nextCharIsAdditiveOperator(in);
 	}
 
 	boolean nextCharIs(Scanner in, char c){
