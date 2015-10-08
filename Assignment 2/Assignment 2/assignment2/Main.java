@@ -2,7 +2,6 @@ package assignment2;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
-import java.beans.Expression;
 import java.io.PrintStream;
 
 public class Main {
@@ -24,10 +23,9 @@ public class Main {
 			DIGIT_PATTERN = "[0-9]";
 
 	Scanner in;
-	Table<Identifier, SetInterface<NaturalNumber>> setTable;
+	Table<IdentifierInterface, SetInterface<NaturalNumberInterface>> setTable;
 	PrintStream out;
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
 	Main() {
 		setTable = new Table();
 		out = new PrintStream(System.out);
@@ -40,9 +38,9 @@ public class Main {
 		return in.nextLine();
 	}
 
-	NaturalNumber readNaturalNumber(Scanner naturalNumberScanner)throws APException{
-		NaturalNumber result = new NaturalNumber(nextChar(naturalNumberScanner));
-		while(!nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR)){
+	NaturalNumberInterface readNaturalNumber(Scanner naturalNumberScanner)throws APException{
+		NaturalNumberInterface result = new NaturalNumber(nextChar(naturalNumberScanner));
+		while(!nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) && !nextCharIs(naturalNumberScanner, SET_CLOSE_MARK)){
 			if(result.isZero() && nextCharIs(naturalNumberScanner, '0')){
 				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
 			}else if(nextCharIsDigit(naturalNumberScanner)){
@@ -54,25 +52,27 @@ public class Main {
 		return result;
 	}
 
-	Set<NaturalNumber> readSet(Scanner setScanner)throws APException{
-		Set<NaturalNumber> result = new Set<NaturalNumber>();
+	SetInterface<NaturalNumberInterface> readSet(Scanner setScanner)throws APException{
+		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
 		nextChar(setScanner);
 		while(!nextCharIs(setScanner, SET_CLOSE_MARK)){
 			if(nextCharIsDigit(setScanner)){
 				result.add(readNaturalNumber(setScanner));
-				nextChar(setScanner);
+				if(nextCharIs(setScanner, NATURAL_NUMBER_SEPERATOR)){
+					nextChar(setScanner);
+				}
 			}else{
 				throw new APException("Error in input: Sets can only contain natural numbers seperated by ',' and should be closed by '}'.");
 			}
-			nextChar(setScanner);
 		}
+		nextChar(setScanner);
 		return result;
 	}
 
-	Set<NaturalNumber> readFactor(Scanner factorScanner)throws APException{
-		Set<NaturalNumber> result = new Set<NaturalNumber>();
+	SetInterface<NaturalNumberInterface> readFactor(Scanner factorScanner)throws APException{
+		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
 		if(nextCharIsLetter(factorScanner)){
-			Identifier key = readIdentifier(factorScanner, false);
+			IdentifierInterface key = readIdentifier(factorScanner, false);
 			result = setTable.find(key);
 		}else if(nextCharIs(factorScanner, SET_OPEN_MARK)){
 			result = readSet(factorScanner);
@@ -86,29 +86,29 @@ public class Main {
 		return result;
 	}
 
-	Set<NaturalNumber> readTerm(Scanner termScanner)throws APException{
-		Set<NaturalNumber> result = new Set<NaturalNumber>();
+	SetInterface<NaturalNumberInterface> readTerm(Scanner termScanner)throws APException{
+		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
 		result = readFactor(termScanner);
 		while(nextCharIs(termScanner, INTERSECTION_OPERATOR)){
 			nextChar(termScanner);
-			result.intersection(readFactor(termScanner));
+			result = result.intersection(readFactor(termScanner));
 		}
 		return result;
 	}
 
-	Set<NaturalNumber> readExpression(Scanner expressionScanner)throws APException{
-		Set<NaturalNumber> result = new Set<NaturalNumber>();
+	SetInterface<NaturalNumberInterface> readExpression(Scanner expressionScanner)throws APException{
+		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
 		result = readTerm(expressionScanner);
 		while (nextCharIsAdditiveOperator(expressionScanner)){
 			if(nextCharIs(expressionScanner, UNION_OPERATOR)){
 				nextChar(expressionScanner);
-				result.union(readTerm(expressionScanner));
+				result = result.union(readTerm(expressionScanner));
 			}else if(nextCharIs(expressionScanner, COMPLEMENT_OPERATOR)){
 				nextChar(expressionScanner);
-				result.difference(readTerm(expressionScanner));
+				result = result.difference(readTerm(expressionScanner));
 			}else if(nextCharIs(expressionScanner, SYMMETRIC_DIFFERENCE_OPERATOR)){
 				nextChar(expressionScanner);
-				result.symmetricDifference(readTerm(expressionScanner));
+				result = result.symmetricDifference(readTerm(expressionScanner));
 			}else{
 				throw new APException("wrong character detected");
 			}
@@ -116,11 +116,11 @@ public class Main {
 		return result;
 	}
 
-	Identifier readIdentifier(Scanner identifierScanner, boolean isAssignment)throws APException{
-		Identifier result;
+	IdentifierInterface readIdentifier(Scanner identifierScanner, boolean isAssignment)throws APException{
+		IdentifierInterface result;
 		if(nextCharIsLetter(identifierScanner)){
 			result = new Identifier(nextChar(identifierScanner));
-			while(!nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)){
+			while(identifierScanner.hasNext() && !nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)){
 				if(nextCharIsAlphanumeric(identifierScanner)){
 					result.addCharacter(nextChar(identifierScanner));
 				}else{
@@ -140,14 +140,23 @@ public class Main {
 
 	void processPrintStatement(Scanner printStatementScanner)throws APException {
 		nextChar(printStatementScanner);
-		Set<NaturalNumber> value = readExpression(printStatementScanner);
-		out.printf("{%s}", value.toString());
+		SetInterface<NaturalNumberInterface> value = readExpression(printStatementScanner);
+		String result = "";
+		while(!value.isEmpty()){
+			NaturalNumberInterface naturalNumber = value.get();
+			value.remove(naturalNumber);
+			result += naturalNumber.toString() + " ";	
+		}
+		if(!(result.length() == 0)){
+			result = result.substring(0, result.length()-1);
+		}
+		out.printf("%c%s%c\n", SET_OPEN_MARK, result, SET_CLOSE_MARK);
 	}
 
 	void processAssignment(Scanner assignmentScanner)throws APException {
-		Identifier key = readIdentifier(assignmentScanner, true);
+		IdentifierInterface key = readIdentifier(assignmentScanner, true);
 		nextChar(assignmentScanner);
-		Set<NaturalNumber> value = readExpression(assignmentScanner);
+		SetInterface<NaturalNumberInterface> value = readExpression(assignmentScanner);
 		setTable.add(key, value);
 	}
 

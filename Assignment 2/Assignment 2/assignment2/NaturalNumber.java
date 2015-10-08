@@ -68,8 +68,4 @@ public class NaturalNumber implements NaturalNumberInterface {
 	public int length() {
 		return length;
 	}
-
-	public String toString(){
-		return content.toString();
-	}
 }

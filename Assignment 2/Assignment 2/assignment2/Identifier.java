@@ -21,7 +21,7 @@ public class Identifier implements IdentifierInterface {
 	}
 	
 	public int compareTo(IdentifierInterface other) {
-		return toString().compareTo(content.toString());
+		return toString().compareTo(other.toString());
 	}
 
 	public void init(char c) {

@@ -29,8 +29,9 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 	}
 
 	public void remove(E element) {
-		content.find(element);
-		content.remove();
+		if(contains(element)){
+			content.remove();
+		}
 	}
 
 	public E get() {
@@ -64,7 +65,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 	public SetInterface<E> difference(SetInterface<E> set2) {
 		SetInterface<E> result = clone();
 		SetInterface<E> temp = set2.clone();
-		for (int i = 0; i < temp.size(); i++) {
+		while(!temp.isEmpty()){
 			E data = temp.get();
 			temp.remove(data);
 			result.remove(data);
@@ -75,7 +76,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 	public SetInterface<E> intersection(SetInterface<E> set2) {
 		SetInterface<E> result = new Set<E>();
 		SetInterface<E> temp = clone();
-		for (int i = 0; i < temp.size(); i++) {
+		while(!temp.isEmpty()){
 			E data = temp.get();
 			temp.remove(data);
 			if (set2.contains(data)) {
@@ -88,7 +89,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 	public SetInterface<E> union(SetInterface<E> set2) {
 		SetInterface<E> result = clone();
 		SetInterface<E> temp = set2.clone();
-		for (int i = 0; i < temp.size(); i++) {
+		while(!temp.isEmpty()){
 			E data = temp.get();
 			temp.remove(data);
 			result.add(data);
@@ -99,4 +100,5 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 	public SetInterface<E> symmetricDifference(SetInterface<E> set2) {
 		return difference(set2).union(set2.difference(this));
 	}
+
 }
