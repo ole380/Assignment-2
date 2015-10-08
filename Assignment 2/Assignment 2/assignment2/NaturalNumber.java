@@ -16,7 +16,7 @@ public class NaturalNumber implements NaturalNumberInterface {
 		char firstDigit = content.charAt(0);
 		NaturalNumber result = new NaturalNumber(firstDigit);
 		for (int i = 1; i < length; i++) {
-			result.content.append(content.charAt(i));
+			result.addDigit(content.charAt(i));
 		}
 		return result;
 	}
