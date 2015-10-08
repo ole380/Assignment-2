@@ -24,7 +24,7 @@ package assignment2;
  * 			A new Identifier object which is a copy of src is created.
  * 	
 */	
-public interface IdentifierInterface extends Data<Identifier>{
+public interface IdentifierInterface extends Data<IdentifierInterface>{
 	
 	/* Initializes the Identifier object with content c.
 	 *  @precondition:
@@ -50,7 +50,7 @@ public interface IdentifierInterface extends Data<Identifier>{
 	 * @postcondition
 	 * 		The character that is on the given position is returned.
 	 */
-	char getCharAtPos(int pos);
+	char getCharAt(int pos);
 	
 	/* Returns an identifier as a String object.
 	 * @precondition

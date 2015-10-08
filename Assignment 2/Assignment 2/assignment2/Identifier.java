@@ -20,7 +20,7 @@ public class Identifier implements IdentifierInterface {
 		return result;
 	}
 	
-	public int compareTo(Identifier other) {
+	public int compareTo(IdentifierInterface other) {
 		return toString().compareTo(content.toString());
 	}
 
@@ -35,7 +35,7 @@ public class Identifier implements IdentifierInterface {
 		length++;
 	}
 
-	public char getCharAtPos(int pos){
+	public char getCharAt(int pos){
 		return content.charAt(pos);
 	}
 	

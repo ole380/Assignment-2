@@ -21,15 +21,15 @@ public class NaturalNumber implements NaturalNumberInterface {
 		return result;
 	}
 
-	public int compareTo(NaturalNumber other) {
+	public int compareTo(NaturalNumberInterface other) {
 		if (length > other.length()) {
 			return 1;
-		} else if (length < other.length) {
+		} else if (length < other.length()) {
 			return -1;
 		} else { // both have the same number of digits
 			for (int i = 0; i < length; i++) {
-				int digit = Character.getNumericValue(content.charAt(i));
-				int digitOther = Character.getNumericValue(other.content.charAt(i));
+				int digit = Character.getNumericValue(getDigitAt(i));
+				int digitOther = Character.getNumericValue(other.getDigitAt(i));
 				if (digit != digitOther) {
 					return Integer.compare(digit, digitOther);
 				}
@@ -57,10 +57,12 @@ public class NaturalNumber implements NaturalNumberInterface {
 		}
 	}
 
-	public char removeLastDigit() {
-		char res = content.charAt(length-1);
-		content.setLength(length-1);
-		return res;
+	public char getDigitAt(int pos) {
+		return content.charAt(pos);
+	}
+	
+	public String toString() {
+		return content.toString();
 	}
 
 	public int length() {

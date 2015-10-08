@@ -42,7 +42,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 		if (size() != set2.size()) {
 			return false;
 		}
-		Set<E> temp = clone();
+		SetInterface<E> temp = clone();
 		for (int i = 0; i < size(); i++) {
 			E data = temp.get();
 			temp.remove(data);
@@ -62,8 +62,8 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 	}
 
 	public SetInterface<E> difference(SetInterface<E> set2) {
-		Set<E> result = clone();
-		Set<E> temp = set2.clone();
+		SetInterface<E> result = clone();
+		SetInterface<E> temp = set2.clone();
 		for (int i = 0; i < temp.size(); i++) {
 			E data = temp.get();
 			temp.remove(data);
@@ -73,8 +73,8 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 	}
 
 	public SetInterface<E> intersection(SetInterface<E> set2) {
-		Set<E> result = new Set<E>();
-		Set<E> temp = clone();
+		SetInterface<E> result = new Set<E>();
+		SetInterface<E> temp = clone();
 		for (int i = 0; i < temp.size(); i++) {
 			E data = temp.get();
 			temp.remove(data);
@@ -86,8 +86,8 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 	}
 
 	public SetInterface<E> union(SetInterface<E> set2) {
-		Set<E> result = clone();
-		Set<E> temp = set2.clone();
+		SetInterface<E> result = clone();
+		SetInterface<E> temp = set2.clone();
 		for (int i = 0; i < temp.size(); i++) {
 			E data = temp.get();
 			temp.remove(data);
