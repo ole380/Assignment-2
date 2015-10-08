@@ -38,7 +38,7 @@ public interface TableInterface<K extends Data<K>, V extends Clonable<V>> extend
 	 */
 	boolean contains(K key);
 	
-	/** Find the value belonging to key K, if present.
+	/** Find the value belonging to key K.
 	 *  @precondition:
 	 *  	K is in the table.
 	 *  @postcondition:
@@ -54,4 +54,12 @@ public interface TableInterface<K extends Data<K>, V extends Clonable<V>> extend
 	 * 		The table contains (key, value).
 	 */
 	void add(K key, V value);
+	
+	/** Removes a key, and its corresponding value from the table, if present.
+	 * @precondition
+	 * 		None.
+	 * @postcondition
+	 * 		The table does not contain the key and its corresponding value.
+	 */
+	void remove(K key);
 }

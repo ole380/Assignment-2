@@ -166,7 +166,10 @@ public class Main {
 		IdentifierInterface key = readIdentifier(assignmentScanner, true);
 		nextChar(assignmentScanner, true);//hier whitespaces lezen
 		SetInterface<NaturalNumberInterface> value = readExpression(assignmentScanner);
-		setTable.add(key, value);
+		if(setTable.contains(key)){
+			setTable.remove(key);
+		}
+			setTable.add(key, value);
 	}
 
 	char nextChar(Scanner in, boolean whiteSpaceAllowed){

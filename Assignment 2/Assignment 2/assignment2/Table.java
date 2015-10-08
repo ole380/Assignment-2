@@ -31,7 +31,16 @@ public class Table<K extends Data<K>, V extends Clonable<V>> implements TableInt
 
 	public void add(K key, V value) {
 		Variable<K,V> newVar = new Variable<K,V>(key,value);
+		if(contains(key)){
+			remove(key);
+		}
 		content.insert(newVar);
+	}
+	
+	public void remove(K key){
+		Variable<K,V> temp = new Variable<K,V>(key,null);
+		content.find(temp);
+		content.remove();
 	}
 	
 	private class Variable<K extends Data<K>, V extends Clonable<V>> implements Data<Variable<K,V>>{
@@ -54,4 +63,5 @@ public class Table<K extends Data<K>, V extends Clonable<V>> implements TableInt
 			return key.compareTo(other.key);
 		}
 	}
+	
 }
