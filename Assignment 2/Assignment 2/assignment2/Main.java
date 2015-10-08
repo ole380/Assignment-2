@@ -33,12 +33,12 @@ public class Main {
 	}
 
 	NaturalNumberInterface readNaturalNumber(Scanner naturalNumberScanner)throws APException{
-		NaturalNumberInterface result = new NaturalNumber(nextChar(naturalNumberScanner, false));//hier geen whitespaces lezen
+		NaturalNumberInterface result = new NaturalNumber(nextChar(naturalNumberScanner, false));
 		while(!nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) && !nextCharIs(naturalNumberScanner, SET_CLOSE_MARK)){
 			if(result.isZero() && nextCharIs(naturalNumberScanner, '0')){
 				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
 			}else if(nextCharIsDigit(naturalNumberScanner)){
-				result.addDigit(nextChar(naturalNumberScanner, false));//hier geen whitespaces lezen
+				result.addDigit(nextChar(naturalNumberScanner, false));
 			}else if(nextCharIs(naturalNumberScanner, ' ')){
 				readWhiteSpaces(naturalNumberScanner);
 				if (!(nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) || nextCharIs(naturalNumberScanner, SET_CLOSE_MARK))){
@@ -53,18 +53,18 @@ public class Main {
 
 	SetInterface<NaturalNumberInterface> readSet(Scanner setScanner)throws APException{
 		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
-		nextChar(setScanner, true);//hier whitespaces lezen
+		nextChar(setScanner, true);
 		while(!nextCharIs(setScanner, SET_CLOSE_MARK)){
 			if(nextCharIsDigit(setScanner)){
 				result.add(readNaturalNumber(setScanner));
 				if(nextCharIs(setScanner, NATURAL_NUMBER_SEPERATOR)){
-					nextChar(setScanner, true);//hier whitespaces lezen
+					nextChar(setScanner, true);
 				}
 			}else{
 				throw new APException("Error in input: Sets can only contain natural numbers seperated by ',' and should be closed by '}'.");
 			}
 		}
-		nextChar(setScanner, true);//hier whitespaces lezen
+		nextChar(setScanner, true);
 		return result;
 	}
 
@@ -81,9 +81,9 @@ public class Main {
 		}else if(nextCharIs(factorScanner, SET_OPEN_MARK)){
 			result = readSet(factorScanner);
 		}else if(nextCharIs(factorScanner, COMPLEX_FACTOR_OPEN_MARK)){
-			nextChar(factorScanner, true);//hier whitespaces lezen
+			nextChar(factorScanner, true);
 			result = readExpression(factorScanner);
-			nextChar(factorScanner, true);//hier whitespaces lezen
+			nextChar(factorScanner, true);
 		}else{
 			throw new APException("Error in input:");
 		}
@@ -94,7 +94,7 @@ public class Main {
 		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
 		result = readFactor(termScanner);
 		while(nextCharIs(termScanner, INTERSECTION_OPERATOR)){
-			nextChar(termScanner, true);//hier whitespaces lezen
+			nextChar(termScanner, true);
 			result = result.intersection(readFactor(termScanner));
 		}
 		return result;
@@ -105,13 +105,13 @@ public class Main {
 		result = readTerm(expressionScanner);
 		while (nextCharIsAdditiveOperator(expressionScanner)){
 			if(nextCharIs(expressionScanner, UNION_OPERATOR)){
-				nextChar(expressionScanner, true);//hier whitespaces lezen
+				nextChar(expressionScanner, true);
 				result = result.union(readTerm(expressionScanner));
 			}else if(nextCharIs(expressionScanner, COMPLEMENT_OPERATOR)){
-				nextChar(expressionScanner, true);//hier whitespaces lezen
+				nextChar(expressionScanner, true);
 				result = result.difference(readTerm(expressionScanner));
 			}else if(nextCharIs(expressionScanner, SYMMETRIC_DIFFERENCE_OPERATOR)){
-				nextChar(expressionScanner, true);//hier whitespaces lezen
+				nextChar(expressionScanner, true);
 				result = result.symmetricDifference(readTerm(expressionScanner));
 			}else{
 				throw new APException("wrong character detected");
@@ -123,10 +123,10 @@ public class Main {
 	IdentifierInterface readIdentifier(Scanner identifierScanner, boolean isAssignment)throws APException{
 		IdentifierInterface result;
 		if(nextCharIsLetter(identifierScanner)){
-			result = new Identifier(nextChar(identifierScanner, false));//hier geen whitespaces lezen
+			result = new Identifier(nextChar(identifierScanner, false));
 			while(!nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR) && !nextCharIsAdditiveOperator(identifierScanner) && identifierScanner.hasNextLine()){
 				if(nextCharIsAlphanumeric(identifierScanner)){
-					result.addCharacter(nextChar(identifierScanner, false));//hier geen whitespaces lezen
+					result.addCharacter(nextChar(identifierScanner, false));
 				}else if(nextCharIs(identifierScanner, ' ')){
 					readWhiteSpaces(identifierScanner);
 					if (!((nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)) || nextCharIsAdditiveOperator(identifierScanner))){
@@ -142,13 +142,13 @@ public class Main {
 			}
 		}else{
 			throw new Error("The program made an attempt to read an identifier that starts with another character than a letter, this should not be possible.");
-			//This exception should not be thrown as this is checked earlier in the program.
+			//This error should not be thrown as this is checked earlier in the program.
 		}
 		return result;
 	}
 
 	void processPrintStatement(Scanner printStatementScanner)throws APException {
-		nextChar(printStatementScanner,true);//hier whitespaces lezen
+		nextChar(printStatementScanner,true);
 		SetInterface<NaturalNumberInterface> value = readExpression(printStatementScanner);
 		String result = "";
 		while(!value.isEmpty()){
@@ -164,7 +164,7 @@ public class Main {
 
 	void processAssignment(Scanner assignmentScanner)throws APException {
 		IdentifierInterface key = readIdentifier(assignmentScanner, true);
-		nextChar(assignmentScanner, true);//hier whitespaces lezen
+		nextChar(assignmentScanner, true);
 		SetInterface<NaturalNumberInterface> value = readExpression(assignmentScanner);
 		if(setTable.contains(key)){
 			setTable.remove(key);
@@ -185,7 +185,6 @@ public class Main {
 	}
 
 	boolean nextCharIsAdditiveOperator(Scanner in){
-		boolean result =in.hasNext((Pattern.quote(UNION_OPERATOR+""))) || in.hasNext((Pattern.quote(COMPLEMENT_OPERATOR+""))) || in.hasNext((Pattern.quote(SYMMETRIC_DIFFERENCE_OPERATOR+"")));
 		return in.hasNext((Pattern.quote(UNION_OPERATOR+""))) || in.hasNext((Pattern.quote(COMPLEMENT_OPERATOR+""))) || in.hasNext((Pattern.quote(SYMMETRIC_DIFFERENCE_OPERATOR+"")));
 	}
 
