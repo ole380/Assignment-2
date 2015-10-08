@@ -8,20 +8,20 @@ import java.io.PrintStream;
 public class Main {
 
 	static final char	COMMENT_TYPE_MARKER = '/',
-						PRINT_STATEMENT_TYPE_MARKER = '?',
-						IDENTIFIER_EXPRESSION_SEPERATOR = '=',
-						UNION_OPERATOR = '+',
-						COMPLEMENT_OPERATOR = '-',
-						SYMMETRIC_DIFFERENCE_OPERATOR = '|',
-						INTERSECTION_OPERATOR = '*',
-						SET_OPEN_MARK = '{',
-						SET_CLOSE_MARK = '}',
-						COMPLEX_FACTOR_OPEN_MARK = '(',
-						COMPLEX_FACTOR_CLOSE_MARK = ')',
-						NATURAL_NUMBER_SEPERATOR = ',';
+			PRINT_STATEMENT_TYPE_MARKER = '?',
+			IDENTIFIER_EXPRESSION_SEPERATOR = '=',
+			UNION_OPERATOR = '+',
+			COMPLEMENT_OPERATOR = '-',
+			SYMMETRIC_DIFFERENCE_OPERATOR = '|',
+			INTERSECTION_OPERATOR = '*',
+			SET_OPEN_MARK = '{',
+			SET_CLOSE_MARK = '}',
+			COMPLEX_FACTOR_OPEN_MARK = '(',
+			COMPLEX_FACTOR_CLOSE_MARK = ')',
+			NATURAL_NUMBER_SEPERATOR = ',';
 
 	static final String LETTER_PATTERN = "[a-zA-Z]",
-						DIGIT_PATTERN = "[0-9]";
+			DIGIT_PATTERN = "[0-9]";
 
 	Scanner in;
 	Table<Identifier, SetInterface<NaturalNumber>> setTable;
@@ -53,7 +53,7 @@ public class Main {
 		}
 		return result;
 	}
-	
+
 	Set<NaturalNumber> readSet(Scanner setScanner)throws APException{
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
 		nextChar(setScanner);
@@ -68,53 +68,54 @@ public class Main {
 		}
 		return result;
 	}
-	
+
 	Set<NaturalNumber> readFactor(Scanner factorScanner)throws APException{
 		Set<NaturalNumber> result = new Set<NaturalNumber>();
 		if(nextCharIsLetter(factorScanner)){
 			Identifier key = readIdentifier(factorScanner, false);
+			result = setTable.find(key);
 		}else if(nextCharIs(factorScanner, SET_OPEN_MARK)){
 			result = readSet(factorScanner);
 		}else if(nextCharIs(factorScanner, COMPLEX_FACTOR_OPEN_MARK)){
-			readExpression(factorScanner);
+			nextChar(factorScanner);
+			result = readExpression(factorScanner);
+			nextChar(factorScanner);
 		}else{
 			throw new APException("Error in input:");
 		}
-		//return result;
+		return result;
 	}
-	
+
 	Set<NaturalNumber> readTerm(Scanner termScanner)throws APException{
-		readFactor(termScanner);
+		Set<NaturalNumber> result = new Set<NaturalNumber>();
+		result = readFactor(termScanner);
 		while(nextCharIs(termScanner, INTERSECTION_OPERATOR)){
-			if(nextCharIs(termScanner, INTERSECTION_OPERATOR)){
-				nextChar(termScanner);
-				readFactor(termScanner);
-			}else{
-				throw new APException("wrong character detected");
-			}
+			nextChar(termScanner);
+			result.intersection(readFactor(termScanner));
 		}
+		return result;
 	}
-	
+
 	Set<NaturalNumber> readExpression(Scanner expressionScanner)throws APException{
-		readTerm(expressionScanner);
+		Set<NaturalNumber> result = new Set<NaturalNumber>();
+		result = readTerm(expressionScanner);
 		while (nextCharIsAdditiveOperator(expressionScanner)){
 			if(nextCharIs(expressionScanner, UNION_OPERATOR)){
 				nextChar(expressionScanner);
-				readTerm(expressionScanner);
+				result.union(readTerm(expressionScanner));
 			}else if(nextCharIs(expressionScanner, COMPLEMENT_OPERATOR)){
 				nextChar(expressionScanner);
-				readTerm(expressionScanner);
+				result.difference(readTerm(expressionScanner));
 			}else if(nextCharIs(expressionScanner, SYMMETRIC_DIFFERENCE_OPERATOR)){
 				nextChar(expressionScanner);
-				readTerm(expressionScanner);
-			}else if(nextCharIs(expressionScanner, COMPLEX_FACTOR_CLOSE_MARK)){
-				
+				result.symmetricDifference(readTerm(expressionScanner));
 			}else{
 				throw new APException("wrong character detected");
 			}
 		}
+		return result;
 	}
-	
+
 	Identifier readIdentifier(Scanner identifierScanner, boolean isAssignment)throws APException{
 		Identifier result;
 		if(nextCharIsLetter(identifierScanner)){
@@ -136,16 +137,18 @@ public class Main {
 		}
 		return result;
 	}
-	
+
 	void processPrintStatement(Scanner printStatementScanner)throws APException {
 		nextChar(printStatementScanner);
 		Set<NaturalNumber> value = readExpression(printStatementScanner);
+		out.printf("{%s}", value.toString());
 	}
 
 	void processAssignment(Scanner assignmentScanner)throws APException {
 		Identifier key = readIdentifier(assignmentScanner, true);
 		nextChar(assignmentScanner);
 		Set<NaturalNumber> value = readExpression(assignmentScanner);
+		setTable.add(key, value);
 	}
 
 	char nextChar(Scanner in){
@@ -153,15 +156,15 @@ public class Main {
 		readWhiteSpaces(in);
 		return result;
 	}
-	
+
 	boolean nextCharIsAlphanumeric(Scanner in){
 		return nextCharIsDigit(in)||nextCharIsLetter(in);
 	}
-	
+
 	boolean nextCharIsAdditiveOperator(Scanner in){
 		return in.hasNext((Pattern.quote(UNION_OPERATOR+""))) || in.hasNext((Pattern.quote(COMPLEMENT_OPERATOR+""))) || in.hasNext((Pattern.quote(SYMMETRIC_DIFFERENCE_OPERATOR+"")));
 	}
-	
+
 	boolean nextCharIs(Scanner in, char c){
 		return in.hasNext(Pattern.quote(c+""));
 	}
@@ -169,7 +172,7 @@ public class Main {
 	boolean nextCharIsDigit(Scanner in){
 		return in.hasNext(DIGIT_PATTERN);
 	}
-	
+
 	boolean nextCharIsLetter(Scanner in){
 		return in.hasNext(LETTER_PATTERN);
 	}

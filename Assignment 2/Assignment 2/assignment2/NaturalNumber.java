@@ -67,4 +67,7 @@ public class NaturalNumber implements NaturalNumberInterface {
 		return length;
 	}
 
+	public String toString(){
+		return content.toString();
+	}
 }
