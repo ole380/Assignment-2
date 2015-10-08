@@ -134,7 +134,7 @@ public class Main {
 				}else if(nextCharIs(identifierScanner, ' ')){
 					readWhiteSpaces(identifierScanner);
 					if (!((nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)) || nextCharIsAdditiveOperator(identifierScanner) || nextCharIs(identifierScanner, INTERSECTION_OPERATOR))){
-						throw new APException("Error in input: identifiers cannot contain whitespaces and should be seperated by '='.");
+						throw new APException("Error in input: identifiers cannot contain whitespaces and should be seperated from expressions by '='.");
 					}
 				}else{
 					if(isAssignment == true){
