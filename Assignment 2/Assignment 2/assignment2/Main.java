@@ -234,7 +234,8 @@ public class Main {
 	}
 
 	void start() {
-		in = new Scanner(System.in);		
+		in = new Scanner(System.in);
+		
 		while(in.hasNextLine()){
 			Scanner inputScanner = new Scanner(in.nextLine());
 			inputScanner.useDelimiter("");
