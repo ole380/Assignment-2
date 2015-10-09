@@ -85,12 +85,16 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 		size--;
 		if (this.isEmpty()) {
 			current = null;
+			first = null;
+			last = null;
 		} else { // POST-list is not empty
 			if (current.next == null) { // the removed element was the last in the list
 				current = current.prior;
+				last = current;
 				current.next = null;
 			} else if(current.prior == null){//the removed element was first in the list
 				current = current.next;
+				first = current;
 				current.prior = null;
 			} else {// the removed element was not the last or first in the list
 				current.prior.next = current.next;
