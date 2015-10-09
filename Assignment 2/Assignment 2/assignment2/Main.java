@@ -128,12 +128,14 @@ public class Main {
 		IdentifierInterface result;
 		if(nextCharIsLetter(identifierScanner)){
 			result = new Identifier(nextChar(identifierScanner, false));
+			
+			
 			while(!nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR) && !nextCharIsOperator(identifierScanner) && identifierScanner.hasNextLine()){
 				if(nextCharIsAlphanumeric(identifierScanner)){
 					result.addCharacter(nextChar(identifierScanner, false));
 				}else if(nextCharIs(identifierScanner, ' ')){
 					readWhiteSpaces(identifierScanner);
-					if (!((nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)) || nextCharIsAdditiveOperator(identifierScanner) || nextCharIs(identifierScanner, INTERSECTION_OPERATOR))){
+					if (!((nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)) || nextCharIsOperator(identifierScanner))){
 						throw new APException("Error in input: identifiers cannot contain whitespaces and should be seperated from expressions by '='.");
 					}
 				}else{
