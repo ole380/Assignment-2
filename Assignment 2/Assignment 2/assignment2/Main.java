@@ -2,7 +2,6 @@ package assignment2;
 
 import java.util.Scanner;
 import java.util.regex.Pattern;
-import java.io.InputStream;
 import java.io.PrintStream;
 
 public class Main {
@@ -21,7 +20,8 @@ public class Main {
 			NATURAL_NUMBER_SEPERATOR = ',';
 
 	static final String LETTER_PATTERN = "[a-zA-Z]",
-			DIGIT_PATTERN = "[0-9]";
+			DIGIT_PATTERN = "[0-9]",
+			ADDITIVE_OPERATOR_PATTERN = "[+|-]";
 
 	Scanner in;
 	Table<IdentifierInterface, SetInterface<NaturalNumberInterface>> setTable;
@@ -37,7 +37,7 @@ public class Main {
 		while(!nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) && !nextCharIs(naturalNumberScanner, SET_CLOSE_MARK)){
 			if(result.isZero() && nextCharIs(naturalNumberScanner, '0')){
 				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
-			}else if(nextCharIsDigit(naturalNumberScanner)){
+			}else if(nextCharIsPattern(naturalNumberScanner, DIGIT_PATTERN)){
 				result.addDigit(nextChar(naturalNumberScanner, false));
 			}else if(nextCharIs(naturalNumberScanner, ' ')){
 				readWhiteSpaces(naturalNumberScanner);
@@ -55,7 +55,7 @@ public class Main {
 		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
 		nextChar(setScanner, true);
 		while(!nextCharIs(setScanner, SET_CLOSE_MARK)){
-			if(nextCharIsDigit(setScanner)){
+			if(nextCharIsPattern(setScanner, DIGIT_PATTERN)){
 				result.add(readNaturalNumber(setScanner));
 				if(nextCharIs(setScanner, NATURAL_NUMBER_SEPERATOR)){
 					nextChar(setScanner, true);
@@ -70,7 +70,7 @@ public class Main {
 
 	SetInterface<NaturalNumberInterface> readFactor(Scanner factorScanner)throws APException{
 		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
-		if(nextCharIsLetter(factorScanner)){
+		if(nextCharIsPattern(factorScanner, LETTER_PATTERN)){
 			IdentifierInterface key = readIdentifier(factorScanner, false);
 			if(setTable.contains(key)){
 				result = setTable.find(key).clone();
@@ -107,7 +107,7 @@ public class Main {
 	SetInterface<NaturalNumberInterface> readExpression(Scanner expressionScanner)throws APException{
 		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
 		result = readTerm(expressionScanner);
-		while (nextCharIsAdditiveOperator(expressionScanner)){
+		while (nextCharIsPattern(expressionScanner, ADDITIVE_OPERATOR_PATTERN)){
 			if(nextCharIs(expressionScanner, UNION_OPERATOR)){
 				nextChar(expressionScanner, true);
 				result = result.union(readTerm(expressionScanner));
@@ -126,16 +126,14 @@ public class Main {
 
 	IdentifierInterface readIdentifier(Scanner identifierScanner, boolean isAssignment)throws APException{
 		IdentifierInterface result;
-		if(nextCharIsLetter(identifierScanner)){
+		if(nextCharIsPattern(identifierScanner, LETTER_PATTERN)){
 			result = new Identifier(nextChar(identifierScanner, false));
-			
-			
-			while(!nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR) && !nextCharIsOperator(identifierScanner) && identifierScanner.hasNextLine()){
+			while(!nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR) && !nextCharIsOperator(identifierScanner) && !nextCharIs(identifierScanner, COMPLEX_FACTOR_CLOSE_MARK) && identifierScanner.hasNextLine()){
 				if(nextCharIsAlphanumeric(identifierScanner)){
 					result.addCharacter(nextChar(identifierScanner, false));
 				}else if(nextCharIs(identifierScanner, ' ')){
 					readWhiteSpaces(identifierScanner);
-					if (!((nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)) || nextCharIsOperator(identifierScanner))){
+					if (!((nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)) || nextCharIsOperator(identifierScanner) || !identifierScanner.hasNextLine())){
 						throw new APException("Error in input: identifiers cannot contain whitespaces and should be seperated from expressions by '='.");
 					}
 				}else{
@@ -174,7 +172,11 @@ public class Main {
 	void processAssignment(Scanner assignmentScanner)throws APException {
 		IdentifierInterface key = readIdentifier(assignmentScanner, true);
 		if(assignmentScanner.hasNext()){
-			nextChar(assignmentScanner, true);
+			if(nextCharIs(assignmentScanner, IDENTIFIER_EXPRESSION_SEPERATOR)){
+				nextChar(assignmentScanner, true);
+			}else{
+				throw new APException("Identifiers should be separated from expressions by '='.");
+			}
 		}else{
 			throw new APException("A '=' was expected to assign a value, but no character could be read.");
 		}
@@ -194,27 +196,19 @@ public class Main {
 	}
 
 	boolean nextCharIsAlphanumeric(Scanner in){
-		return nextCharIsDigit(in)||nextCharIsLetter(in);
+		return nextCharIsPattern(in, DIGIT_PATTERN)||nextCharIsPattern(in, LETTER_PATTERN);
 	}
 
-	boolean nextCharIsAdditiveOperator(Scanner in){
-		return in.hasNext(Pattern.quote(UNION_OPERATOR+"")) || in.hasNext((Pattern.quote(COMPLEMENT_OPERATOR+""))) || in.hasNext(Pattern.quote(SYMMETRIC_DIFFERENCE_OPERATOR+""));
-	}
-	
 	boolean nextCharIsOperator(Scanner in) {
-		return in.hasNext(Pattern.quote(INTERSECTION_OPERATOR+"")) || nextCharIsAdditiveOperator(in);
+		return in.hasNext(Pattern.quote(INTERSECTION_OPERATOR+"")) || nextCharIsPattern(in, ADDITIVE_OPERATOR_PATTERN);
 	}
 
 	boolean nextCharIs(Scanner in, char c){
 		return in.hasNext(Pattern.quote(c+""));
 	}
-
-	boolean nextCharIsDigit(Scanner in){
-		return in.hasNext(DIGIT_PATTERN);
-	}
-
-	boolean nextCharIsLetter(Scanner in){
-		return in.hasNext(LETTER_PATTERN);
+	
+	boolean nextCharIsPattern(Scanner in, String pattern){
+		return in.hasNext(pattern);
 	}
 
 	void readWhiteSpaces(Scanner in){
@@ -224,7 +218,7 @@ public class Main {
 	}
 
 	void readStatement(Scanner inputScanner)throws APException {
-		if(nextCharIsLetter(inputScanner)){
+		if(nextCharIsPattern(inputScanner, LETTER_PATTERN)){
 			processAssignment(inputScanner);
 		}else if(nextCharIs(inputScanner, PRINT_STATEMENT_TYPE_MARKER)){
 			processPrintStatement(inputScanner);
