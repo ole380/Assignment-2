@@ -53,7 +53,7 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 
 		if (!isEmpty()) {
 			find(d);
-			if (current.data.compareTo(d) == 1) {
+			if (current.data.compareTo(d) > 0) {
 				// newNode has to come first in the list
 				newNode.next = current;
 				current.prior = newNode;
@@ -103,14 +103,14 @@ public class List<E extends Data<E>> implements ListInterface<E> {
 
 	public boolean find(E d) {
 		if (goToFirst()) {
-			while (current.data.compareTo(d) == -1) {
+			while (current.data.compareTo(d) < 0) {
 				if (!goToNext()) {
 					return false;
 				}
 			}
 			if (current.data.compareTo(d) == 0) {
 				return true;
-			} else {
+			} else { 
 				goToPrevious();
 			}
 		}
