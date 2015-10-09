@@ -89,7 +89,7 @@ public class Main {
 				throw new APException("A ')' was expected to close the factor, but no character could be read.");
 			}
 		}else{
-			throw new APException("Error in input:");
+			throw new APException("Error in input: factors can only be an identifier or set, complex factors should be indicated by '('.");
 		}
 		return result;
 	}
@@ -118,7 +118,7 @@ public class Main {
 				nextChar(expressionScanner, true);
 				result = result.symmetricDifference(readTerm(expressionScanner));
 			}else{
-				throw new APException("wrong character detected");
+				throw new APException("Error in input: could not read a '+', '-' or '|' to continue the expression.");
 			}
 		}
 		return result;
