@@ -16,14 +16,8 @@ package assignment2;
  * 			Character c is a letter.
  * 		postcondition
  * 			A new Identifier which contains the c is created.
- * 
- * 	Identifier(IdentifierInterface src);
- * 		precondition
- * 			None.
- * 		postcondition
- * 			A new Identifier object which is a copy of src is created.
- * 	
  */	
+
 public interface IdentifierInterface extends Data<IdentifierInterface>{
 
 	/* Initializes the Identifier object with content c.
