@@ -28,7 +28,7 @@ public class Main {
 	PrintStream out;
 
 	Main() {
-		setTable = new Table();
+		setTable = new Table<IdentifierInterface, SetInterface<NaturalNumberInterface>>();
 		out = new PrintStream(System.out);
 	}
 
@@ -145,7 +145,7 @@ public class Main {
 						}
 					}
 				}else{
-					if(isAssignment == true){
+					if(isAssignment){
 						throw new APException("Identifiers should only consist of alphanumeric characters and should be separated from expressions by '='.");
 					}else{
 						throw new APException("Identifiers should only consist of alphanumeric characters and should be seperated by operators.");
@@ -163,7 +163,7 @@ public class Main {
 		nextChar(printStatementScanner,true);
 		SetInterface<NaturalNumberInterface> value = readExpression(printStatementScanner);
 		if (printStatementScanner.hasNext()) {
-			throw new APException("Error: expressions must be followed by end of line.");
+			throw new APException("Error: print statement must be ended by end of line.");
 		}
 		String result = "";
 		while(!value.isEmpty()){
@@ -171,7 +171,7 @@ public class Main {
 			value.remove(naturalNumber);
 			result += naturalNumber.toString() + " ";	
 		}
-		if(!(result.length() == 0)){
+		if(!(result.length() == 0)){ // remove last space
 			result = result.substring(0, result.length()-1);
 		}
 		out.printf("%s\n", result);
@@ -190,7 +190,7 @@ public class Main {
 		}
 		SetInterface<NaturalNumberInterface> value = readExpression(assignmentScanner);
 		if (assignmentScanner.hasNext()) {
-			throw new APException("Error: expressions must be followed by end of line.");
+			throw new APException("Error: assignment must be ended by end of line.");
 		}
 		setTable.add(key, value);
 	}
