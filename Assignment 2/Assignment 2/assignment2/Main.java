@@ -34,7 +34,7 @@ public class Main {
 
 	NaturalNumberInterface readNaturalNumber(Scanner naturalNumberScanner)throws APException{
 		NaturalNumberInterface result = new NaturalNumber(nextChar(naturalNumberScanner, false));
-		while(!nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) && !nextCharIs(naturalNumberScanner, SET_CLOSE_MARK)){
+		while(!(nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) || nextCharIs(naturalNumberScanner, SET_CLOSE_MARK))){
 			if(result.isZero() && nextCharIs(naturalNumberScanner, '0')){
 				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
 			}else if(nextCharIsPattern(naturalNumberScanner, DIGIT_PATTERN)){
@@ -124,23 +124,31 @@ public class Main {
 		return result;
 	}
 
+	boolean checkIdentifierSeperator(Scanner identifierScanner){
+		return nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR) || nextCharIsOperator(identifierScanner) || nextCharIs(identifierScanner, COMPLEX_FACTOR_CLOSE_MARK);
+	}
+	
 	IdentifierInterface readIdentifier(Scanner identifierScanner, boolean isAssignment)throws APException{
 		IdentifierInterface result;
 		if(nextCharIsPattern(identifierScanner, LETTER_PATTERN)){
 			result = new Identifier(nextChar(identifierScanner, false));
-			while(!nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR) && !nextCharIsOperator(identifierScanner) && !nextCharIs(identifierScanner, COMPLEX_FACTOR_CLOSE_MARK) && identifierScanner.hasNextLine()){
+			while(!checkIdentifierSeperator(identifierScanner) && identifierScanner.hasNextLine()){
 				if(nextCharIsAlphanumeric(identifierScanner)){
 					result.addCharacter(nextChar(identifierScanner, false));
 				}else if(nextCharIs(identifierScanner, ' ')){
 					readWhiteSpaces(identifierScanner);
-					if (!((nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR)) || nextCharIsOperator(identifierScanner) || !identifierScanner.hasNextLine())){
-						throw new APException("Error in input: identifiers cannot contain whitespaces and should be seperated from expressions by '='.");
+					if (!checkIdentifierSeperator(identifierScanner) || !identifierScanner.hasNextLine()){
+						if(isAssignment){
+							throw new APException("Identifiers cannot contain whitespaces and should be separated from expressions by '='.");
+						}else{
+							throw new APException("Identifiers cannot contain whitespaces and should be seperated by operators or brackets.");
+						}
 					}
 				}else{
 					if(isAssignment == true){
 						throw new APException("Identifiers should only consist of alphanumeric characters and should be separated from expressions by '='.");
 					}else{
-						throw new APException("Identifiers should only consist of alphanumeric characters.");
+						throw new APException("Identifiers should only consist of alphanumeric characters and should be seperated by operators.");
 					}
 				}
 			}
@@ -161,12 +169,12 @@ public class Main {
 		while(!value.isEmpty()){
 			NaturalNumberInterface naturalNumber = value.get();
 			value.remove(naturalNumber);
-			result += naturalNumber.toString() + ", ";	
+			result += naturalNumber.toString() + " ";	
 		}
 		if(!(result.length() == 0)){
-			result = result.substring(0, result.length()-2);
+			result = result.substring(0, result.length()-1);
 		}
-		out.printf("%c%s%c\n", SET_OPEN_MARK, result, SET_CLOSE_MARK);
+		out.printf("%s\n", result);
 	}
 
 	void processAssignment(Scanner assignmentScanner)throws APException {

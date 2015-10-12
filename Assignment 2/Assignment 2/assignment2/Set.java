@@ -2,7 +2,7 @@ package assignment2;
 
 public class Set<E extends Data<E>> implements SetInterface<E> {
 
-	List<E> content;
+	private List<E> content;
 
 	Set() {
 		content = new List<E>();
@@ -35,6 +35,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 	}
 
 	public E get() {
+		content.goToFirst();
 		E result = content.retrieve();
 		return result;
 	}
@@ -55,7 +56,7 @@ public class Set<E extends Data<E>> implements SetInterface<E> {
 	}
 
 	public int size() {
-		return content.size;
+		return content.size();
 	}
 
 	public boolean isEmpty() {

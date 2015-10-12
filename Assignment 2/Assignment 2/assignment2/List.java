@@ -2,10 +2,10 @@ package assignment2;
 
 public class List<E extends Data<E>> implements ListInterface<E> {
 
-	int size;
-	Node<E> current;
-	Node<E> first;
-	Node<E> last;
+	private int size;
+	private Node<E> current;
+	private Node<E> first;
+	private Node<E> last;
 
 	List() {
 		size = 0;

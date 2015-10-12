@@ -2,7 +2,7 @@ package assignment2;
 
 public class Table<K extends Data<K>, V extends Clonable<V>> implements TableInterface<K,V>{
 
-	List<Variable<K,V>> content;
+	private List<Variable<K,V>> content;
 
 	Table() {
 		content = new List<Variable<K,V>>();
