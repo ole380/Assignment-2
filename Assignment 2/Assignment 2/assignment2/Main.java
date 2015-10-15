@@ -130,7 +130,7 @@ public class Main {
 	boolean checkIdentifierSeperator(Scanner identifierScanner){
 		return nextCharIs(identifierScanner, IDENTIFIER_EXPRESSION_SEPERATOR) || nextCharIsOperator(identifierScanner) || nextCharIs(identifierScanner, COMPLEX_FACTOR_CLOSE_MARK);
 	}
-	
+
 	IdentifierInterface readIdentifier(Scanner identifierScanner, boolean isAssignment)throws APException{
 		IdentifierInterface result;
 		if(nextCharIsPattern(identifierScanner, LETTER_PATTERN)){
@@ -217,7 +217,7 @@ public class Main {
 	boolean nextCharIs(Scanner in, char c){
 		return in.hasNext(Pattern.quote(c+""));
 	}
-	
+
 	boolean nextCharIsPattern(Scanner in, String pattern){
 		return in.hasNext(pattern);
 	}
