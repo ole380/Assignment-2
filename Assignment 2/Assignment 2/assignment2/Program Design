@@ -1,9 +1,0 @@
-Program calls start
-	Program enters infinite loop
-		start calls a method runProgram that throws an APException, reads the input (if there is any) and process it . If it encounters EOF, ends the program.
-			
-			
-				processAssignment
-				processPrintStatement
-				ignores input which is faulty or a comment.
-				throws APExceptions when input is faulty

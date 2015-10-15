@@ -230,8 +230,10 @@ public class Main {
 			processAssignment(inputScanner);
 		}else if(nextCharIs(inputScanner, PRINT_STATEMENT_TYPE_MARKER)){
 			processPrintStatement(inputScanner);
-		}else if(nextCharIs(inputScanner, COMMENT_TYPE_MARKER) || !inputScanner.hasNext()){
+		}else if(nextCharIs(inputScanner, COMMENT_TYPE_MARKER)){
 			//does nothing when a comment is detected
+		}else if(!inputScanner.hasNext()){
+			throw new APException("A statement must consist of either an assignment, a print statement or a comment.");
 		}else{
 			throw new APException("Input error, expecting a letter, question mark or back-slash.");
 		}
@@ -239,7 +241,6 @@ public class Main {
 
 	void start() {
 		in = new Scanner(System.in);
-		
 		while(in.hasNextLine()){
 			Scanner inputScanner = new Scanner(in.nextLine());
 			inputScanner.useDelimiter("");
