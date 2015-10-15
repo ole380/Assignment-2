@@ -35,7 +35,7 @@ public class Main {
 	NaturalNumberInterface readNaturalNumber(Scanner naturalNumberScanner)throws APException{
 		NaturalNumberInterface result = new NaturalNumber(nextChar(naturalNumberScanner, false));
 		while(!(nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) || nextCharIs(naturalNumberScanner, SET_CLOSE_MARK))){
-			if(result.isZero() && nextCharIs(naturalNumberScanner, '0')){
+			if(result.isZero() && !nextCharIs(naturalNumberScanner, '0')){
 				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
 			}else if(nextCharIsPattern(naturalNumberScanner, DIGIT_PATTERN)){
 				result.addDigit(nextChar(naturalNumberScanner, false));
@@ -59,6 +59,9 @@ public class Main {
 				result.add(readNaturalNumber(setScanner));
 				if(nextCharIs(setScanner, NATURAL_NUMBER_SEPERATOR)){
 					nextChar(setScanner, true);
+					if(!nextCharIsPattern(setScanner, DIGIT_PATTERN)){
+						throw new APException("In a set, a ',' should be followed by a digit.");
+					}
 				}
 			}else{
 				throw new APException("Error in input: Sets can only contain natural numbers seperated by ',' and should be closed by '}'.");
