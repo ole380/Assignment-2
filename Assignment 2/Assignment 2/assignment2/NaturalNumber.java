@@ -68,4 +68,25 @@ public class NaturalNumber implements NaturalNumberInterface {
 	public int length() {
 		return length;
 	}
+	
+	public NaturalNumberInterface increment() {
+		incrementDigit(0);
+		return this;
+	}
+	
+	private NaturalNumberInterface incrementDigit(int position) {
+		char digit = content.charAt(length-1-position);
+		if (digit == '9') {
+			content.setCharAt(length-1-position, '0');
+			if (position != length-1) {
+				incrementDigit(position+1);
+			} else { //the leading digit is a 9
+				content.insert(0, '1');
+			}
+		} else {
+			digit++;
+			content.setCharAt(length-1-position, digit);
+		}
+		return this;
+	}
 }

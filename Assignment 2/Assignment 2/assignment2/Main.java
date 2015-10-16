@@ -17,7 +17,8 @@ public class Main {
 			SET_CLOSE_MARK = '}',
 			COMPLEX_FACTOR_OPEN_MARK = '(',
 			COMPLEX_FACTOR_CLOSE_MARK = ')',
-			NATURAL_NUMBER_SEPERATOR = ',';
+			NATURAL_NUMBER_SEPARATOR = ',',
+			SET_COMPREHENSION_SYMBOL = '.';
 
 	static final String LETTER_PATTERN = "[a-zA-Z]",
 			DIGIT_PATTERN = "[0-9]",
@@ -34,10 +35,10 @@ public class Main {
 
 	NaturalNumberInterface readNaturalNumber(Scanner naturalNumberScanner)throws APException{
 		NaturalNumberInterface result = new NaturalNumber(nextChar(naturalNumberScanner, false));
-		while(!(nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) || nextCharIs(naturalNumberScanner, SET_CLOSE_MARK))){
+		while(!(nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPARATOR) || nextCharIs(naturalNumberScanner, SET_CLOSE_MARK) || nextCharIs(naturalNumberScanner, SET_COMPREHENSION_SYMBOL))){
 			if(nextCharIs(naturalNumberScanner, ' ')){
 				readWhiteSpaces(naturalNumberScanner);
-				if (!(nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) || nextCharIs(naturalNumberScanner, SET_CLOSE_MARK))){
+				if (!(nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPARATOR) || nextCharIs(naturalNumberScanner, SET_CLOSE_MARK) || nextCharIs(naturalNumberScanner, SET_COMPREHENSION_SYMBOL))){
 					throw new APException("Error in input: natural numbers cannot contain whitespaces and should be seperated by ','.");
 				}
 			}else if(result.isZero()){
@@ -50,14 +51,40 @@ public class Main {
 		}
 		return result;
 	}
+	
+	SetInterface<NaturalNumberInterface> readNaturalNumberTerm(Scanner naturalNumberTermScanner)throws APException{
+		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
+		result.add(readNaturalNumber(naturalNumberTermScanner));
+		if (nextCharIs(naturalNumberTermScanner, SET_COMPREHENSION_SYMBOL)) {
+			nextChar(naturalNumberTermScanner, false);
+			if (nextCharIs(naturalNumberTermScanner, SET_COMPREHENSION_SYMBOL)) {
+				nextChar(naturalNumberTermScanner, true);
+				NaturalNumberInterface firstNumber = result.get();
+				NaturalNumberInterface lastNumber = readNaturalNumber(naturalNumberTermScanner);
+				if (firstNumber.compareTo(lastNumber) > 0) {
+					result.init();
+				} else {
+					NaturalNumberInterface temp = firstNumber.clone();
+					while (temp.compareTo(lastNumber) < 0) {
+						temp = temp.increment();
+						result.add(temp.clone());
+					}
+				}
+			} else {
+				throw new APException("Error in input: exactly two dots should be used for set comprehension.");
+			}
+		}
+		return result;
+	}
 
 	SetInterface<NaturalNumberInterface> readSet(Scanner setScanner)throws APException{
 		SetInterface<NaturalNumberInterface> result = new Set<NaturalNumberInterface>();
 		nextChar(setScanner, true);
 		while(!nextCharIs(setScanner, SET_CLOSE_MARK)){
 			if(nextCharIsPattern(setScanner, DIGIT_PATTERN)){
-				result.add(readNaturalNumber(setScanner));
-				if(nextCharIs(setScanner, NATURAL_NUMBER_SEPERATOR)){
+				//result.add(readNaturalNumber(setScanner));
+				result = result.union(readNaturalNumberTerm(setScanner));
+				if(nextCharIs(setScanner, NATURAL_NUMBER_SEPARATOR)){
 					nextChar(setScanner, true);
 					if(!nextCharIsPattern(setScanner, DIGIT_PATTERN)){
 						throw new APException("In a set, a ',' should be followed by a digit.");

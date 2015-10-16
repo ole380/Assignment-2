@@ -70,7 +70,7 @@ public interface NaturalNumberInterface extends Data<NaturalNumberInterface> {
 	// Natural operations
 
 	/**
-	 * Checks the amount of characters of an identifier
+	 * Checks the amount of characters of an identifier.
 	 * 
 	 * @precondition None.
 	 * 
@@ -78,4 +78,15 @@ public interface NaturalNumberInterface extends Data<NaturalNumberInterface> {
 	 * is returned in type int.
 	 */
 	int length();
+	
+	/**
+	 * Increase the number by 1. 
+	 * 
+	 * @precondition None.
+	 * 
+	 * @postcondition The NaturalNumberInterface-POST value is increased by one.
+	 * Then NaturalNumberInterface-POST is returned.
+	 */
+	NaturalNumberInterface increment();
+	
 }
