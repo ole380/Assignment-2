@@ -35,15 +35,15 @@ public class Main {
 	NaturalNumberInterface readNaturalNumber(Scanner naturalNumberScanner)throws APException{
 		NaturalNumberInterface result = new NaturalNumber(nextChar(naturalNumberScanner, false));
 		while(!(nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) || nextCharIs(naturalNumberScanner, SET_CLOSE_MARK))){
-			if(result.isZero() && !nextCharIs(naturalNumberScanner, '0')){
-				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
-			}else if(nextCharIsPattern(naturalNumberScanner, DIGIT_PATTERN)){
-				result.addDigit(nextChar(naturalNumberScanner, false));
-			}else if(nextCharIs(naturalNumberScanner, ' ')){
+			if(nextCharIs(naturalNumberScanner, ' ')){
 				readWhiteSpaces(naturalNumberScanner);
 				if (!(nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) || nextCharIs(naturalNumberScanner, SET_CLOSE_MARK))){
 					throw new APException("Error in input: natural numbers cannot contain whitespaces and should be seperated by ','.");
 				}
+			}else if(result.isZero() && !nextCharIs(naturalNumberScanner, '0')){
+				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
+			}else if(nextCharIsPattern(naturalNumberScanner, DIGIT_PATTERN)){
+				result.addDigit(nextChar(naturalNumberScanner, false));
 			}else{
 				throw new APException("Error in input: natural numbers can only consist of digits and should be seperated by ','.");
 			}
