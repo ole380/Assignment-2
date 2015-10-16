@@ -40,7 +40,7 @@ public class Main {
 				if (!(nextCharIs(naturalNumberScanner, NATURAL_NUMBER_SEPERATOR) || nextCharIs(naturalNumberScanner, SET_CLOSE_MARK))){
 					throw new APException("Error in input: natural numbers cannot contain whitespaces and should be seperated by ','.");
 				}
-			}else if(result.isZero() && !nextCharIs(naturalNumberScanner, '0')){
+			}else if(result.isZero()){
 				throw new APException("Error in input: Zero should be entered as '0', natural numbers should be seperated by ','.");
 			}else if(nextCharIsPattern(naturalNumberScanner, DIGIT_PATTERN)){
 				result.addDigit(nextChar(naturalNumberScanner, false));
