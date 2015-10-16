@@ -1,5 +1,3 @@
-package assignment2;
-
 public class Set<E extends Data<E>> implements SetInterface<E> {
 
 	private List<E> content;

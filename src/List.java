@@ -1,5 +1,3 @@
-package assignment2;
-
 public class List<E extends Data<E>> implements ListInterface<E> {
 
 	private int size;

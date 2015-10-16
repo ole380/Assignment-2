@@ -1,5 +1,3 @@
-package assignment2;
-
 /*ADT for the class Identifier
  * 	@author
  * 		Erik Baalhuis & Niels van der Molen

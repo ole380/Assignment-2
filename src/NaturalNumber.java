@@ -1,6 +1,3 @@
-package assignment2;
-
-
 public class NaturalNumber implements NaturalNumberInterface {
 
 	private StringBuffer content;
@@ -82,6 +79,7 @@ public class NaturalNumber implements NaturalNumberInterface {
 				incrementDigit(position+1);
 			} else { //the leading digit is a 9
 				content.insert(0, '1');
+				length++;
 			}
 		} else {
 			digit++;

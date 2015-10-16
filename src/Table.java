@@ -1,5 +1,3 @@
-package assignment2;
-
 public class Table<K extends Data<K>, V extends Clonable<V>> implements TableInterface<K,V>{
 
 	private List<Variable<K,V>> content;

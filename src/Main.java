@@ -1,5 +1,3 @@
-package assignment2;
-
 import java.util.Scanner;
 import java.util.regex.Pattern;
 import java.io.PrintStream;
@@ -59,6 +57,9 @@ public class Main {
 			nextChar(naturalNumberTermScanner, false);
 			if (nextCharIs(naturalNumberTermScanner, SET_COMPREHENSION_SYMBOL)) {
 				nextChar(naturalNumberTermScanner, true);
+				if(!nextCharIsPattern(naturalNumberTermScanner, DIGIT_PATTERN)) {
+					throw new APException("Error in input: a natural number must follow the set comprehension symbols.");
+				}
 				NaturalNumberInterface firstNumber = result.get();
 				NaturalNumberInterface lastNumber = readNaturalNumber(naturalNumberTermScanner);
 				if (firstNumber.compareTo(lastNumber) > 0) {

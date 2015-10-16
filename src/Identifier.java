@@ -1,5 +1,3 @@
-package assignment2;
-
 public class Identifier implements IdentifierInterface {
 
 	private StringBuffer content;

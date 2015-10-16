@@ -1,5 +1,3 @@
-package assignment2;
-
 /** ADT for the class Set<E>
  * 	@author
  * 		Erik Baalhuis & Niels van der Molen
